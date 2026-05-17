@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Guestbook ✦ Angel Chimes</title>
+    <link rel="icon" type="image/x-icon" href="https://64.media.tumblr.com/ed6fac0fe126e6798f1b00fe44a1532e/2560c9d1d2d874bf-9f/s75x75_c1/836357977fbf0d8d2e4ff9db1710ce412e5c4ea2.gifv">
+    <style>
+        :root {
+            --site-max-width: 960px;
+            --site-padding-x: 20px;
+            --gutter: 20px;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'MS PGothic', monospace;
+            font-size: 14px;
+            background: url('https://file.garden/Z3nf4eZzZUtRPfhK/okumono-haikei5.png');
+            background-size: cover;
+            background-attachment: fixed;
+            background-repeat: none;
+            background-color: rgba(179, 196, 255, 0.7);
+            background-blend-mode: overlay;
+            color: #333;
+        }
+
+        ::-webkit-scrollbar { width: 12px; }
+        ::-webkit-scrollbar-track { background: #e9ecef; border-radius: 6px; }
+        ::-webkit-scrollbar-thumb { background: #a8c8e8; border-radius: 6px; border: 2px solid #e9ecef; }
+        ::-webkit-scrollbar-thumb:hover { background: #90b6e0; }
+
+        .container {
+            max-width: var(--site-max-width);
+            margin: 0 auto;
+            padding: 0 var(--site-padding-x);
+        }
+
+        header.header { margin: 20px 0; display: block; }
+
+        .header-panel {
+            background: linear-gradient(135deg, #7eb4e8, #6aa2d6);
+            padding: 10px 16px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            border-radius: 6px;
+        }
+
+        .logo { color: white; font-size: 24px; font-weight: bold; margin-bottom: 10px; }
+
+        .navbar {
+            background: rgba(255,255,255,0.9);
+            padding: 8px 12px;
+            border-radius: 4px;
+        }
+
+        .navbar a {
+            color: #0048bd;
+            text-decoration: none;
+            margin-right: 15px;
+            padding: 4px 8px;
+            border-radius: 3px;
+            transition: background-color 0.2s;
+        }
+
+        .navbar a:hover {
+            background-color: #e8f2f8;
+            color: #4a6c8a;
+            font-weight: bold;
+        }
+
+        .page-content {
+            margin: 20px auto 0 auto;
+            display: flex;
+            flex-direction: column;
+            gap: var(--gutter);
+        }
+
+        .content-section {
+            background: white;
+            border: 1px solid #c8ddf0;
+            border-radius: 6px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+
+        .section-header {
+            background: linear-gradient(135deg, #c8ddf0, #d5e4f2);
+            padding: 8px 15px;
+            border-bottom: 1px solid #b5cde5;
+            font-weight: bold;
+            border-radius: 5px 5px 0 0;
+            color: #0867c7;
+        }
+
+        .section-content { padding: 15px; line-height: 1.6; }
+
+        /* ── form ── */
+        .form-note {
+            font-size: 12px;
+            color: #6685a8;
+            margin-bottom: 12px;
+        }
+
+        textarea#msg-input {
+            width: 100%;
+            min-height: 90px;
+            font-family: 'MS PGothic', monospace;
+            font-size: 13px;
+            border: 1px solid #b5cde5;
+            border-radius: 4px;
+            padding: 8px 10px;
+            resize: vertical;
+            background: #f7fbff;
+            color: #222;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        textarea#msg-input:focus { border-color: #6aa2d6; background: #fff; }
+
+        .form-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-top: 10px;
+            gap: 10px;
+        }
+
+        #char-count { font-size: 11px; color: #8aaac4; }
+        #char-count.warn { color: #c05a5a; }
+
+        #submit-btn {
+            background: linear-gradient(135deg, #7eb4e8, #5f9fd6);
+            color: white;
+            border: none;
+            padding: 7px 18px;
+            border-radius: 4px;
+            font-family: 'MS PGothic', monospace;
+            font-size: 13px;
+            cursor: pointer;
+            transition: opacity 0.2s, transform 0.1s;
+        }
+
+        #submit-btn:hover:not(:disabled) { opacity: 0.88; transform: translateY(-1px); }
+        #submit-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+
+        #form-status {
+            font-size: 12px;
+            min-height: 18px;
+            margin-top: 8px;
+        }
+
+        #form-status.ok { color: #3a8a5c; }
+        #form-status.err { color: #b94a4a; }
+
+        /* ── messages ── */
+        #messages-list { display: flex; flex-direction: column; gap: 12px; }
+
+        .msg-card {
+            background: linear-gradient(135deg, #f0f7ff, #e8f2fb);
+            border: 1px solid #c8ddf0;
+            border-radius: 8px;
+            padding: 12px 14px;
+            position: relative;
+            animation: fadeIn 0.4s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(6px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+
+        .msg-text {
+            color: #1a3354;
+            word-break: break-word;
+            line-height: 1.55;
+        }
+
+        .msg-meta {
+            font-size: 11px;
+            color: #8aaac4;
+            margin-top: 6px;
+        }
+
+        .msg-stamp {
+            display: inline-block;
+            background: #ddeeff;
+            color: #4a7ab5;
+            border-radius: 10px;
+            padding: 1px 8px;
+            font-size: 10px;
+            margin-right: 5px;
+        }
+
+        #loading-msg, #empty-msg {
+            color: #8aaac4;
+            font-size: 13px;
+            text-align: center;
+            padding: 20px 0;
+        }
+
+        footer.footer { margin: 20px 0 10px 0; display: block; }
+
+        .footer-panel {
+            background: linear-gradient(135deg, #4c92d9, #d5e4f2);
+            padding: 20px 16px;
+            text-align: center;
+            border-top: 1px solid #e0e0e0;
+            font-size: 12px;
+            color: #02193d;
+            border-radius: 6px;
+        }
+
+        @media (max-width: 768px) {
+            :root { --site-padding-x: 10px; }
+            header.header { margin: 10px 0; }
+            footer.footer { margin: 30px 0 10px 0; }
+            .navbar a { display: block; margin: 2px 0; }
+            .form-row { flex-direction: column; align-items: flex-end; }
+        }
+    </style>
+</head>
+<body>
+
+<header class="header">
+    <div class="container">
+        <div class="header-panel">
+            <div class="logo">TITLE OF YOUR SITE</div>
+            <nav class="navbar">
+                <a href="index.html">TOP</a>
+                <a href="index.html#webmaster">Webmaster</a>
+                <a href="guestbook.html">Guestbook</a>
+                <a href="index.html#link1">Link 1</a>
+                <a href="index.html#link2">Link 2</a>
+                <a href="index.html#link3">Link 3</a>
+            </nav>
+        </div>
+    </div>
+</header>
+
+<div class="container">
+    <div class="page-content">
+
+        <!-- submit form -->
+        <section class="content-section">
+            <div class="section-header">✦ Leave a message ✦</div>
+            <div class="section-content">
+                <p class="form-note">All messages are anonymous and public. Be kind! ♡</p>
+                <textarea id="msg-input" maxlength="300" placeholder="say something nice..."></textarea>
+                <div class="form-row">
+                    <span id="char-count">0 / 300</span>
+                    <button id="submit-btn">post ✦</button>
+                </div>
+                <div id="form-status"></div>
+            </div>
+        </section>
+
+        <!-- messages list -->
+        <section class="content-section">
+            <div class="section-header">✦ Guestbook entries ✦</div>
+            <div class="section-content">
+                <div id="messages-list">
+                    <div id="loading-msg">loading messages...</div>
+                </div>
+            </div>
+        </section>
+
+    </div>
+</div>
+
+<footer class="footer">
+    <div class="container">
+        <div class="footer-panel">
+            &copy; 2025 electric-tenshi.
+        </div>
+    </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+    const SUPABASE_URL = 'https://nfpshvdjdfyplsgjvnbu.supabase.co';
+    const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5mcHNodmRqZGZ5cGxzZ2p2bmJ1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzkwMTAzMDEsImV4cCI6MjA5NDU4NjMwMX0.-kEd16tXd4fkyn8WPw6nUF-SihH7UNWSmtiuL0S4uto';
+
+    const { createClient } = supabase;
+    const db = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+    const input    = document.getElementById('msg-input');
+    const counter  = document.getElementById('char-count');
+    const btn      = document.getElementById('submit-btn');
+    const status   = document.getElementById('form-status');
+    const list     = document.getElementById('messages-list');
+
+    // character counter
+    input.addEventListener('input', () => {
+        const len = input.value.length;
+        counter.textContent = `${len} / 300`;
+        counter.classList.toggle('warn', len >= 270);
+    });
+
+    // submit
+    btn.addEventListener('click', async () => {
+        const text = input.value.trim();
+        if (!text) return;
+
+        btn.disabled = true;
+        status.textContent = '';
+        status.className = '';
+
+        const { error } = await db.from('messages').insert({ content: text });
+
+        if (error) {
+            status.textContent = 'something went wrong. please try again!';
+            status.className = 'err';
+        } else {
+            input.value = '';
+            counter.textContent = '0 / 300';
+            status.textContent = 'message posted! thank you ♡';
+            status.className = 'ok';
+            await loadMessages();
+        }
+
+        btn.disabled = false;
+    });
+
+    // load messages
+    async function loadMessages() {
+        const { data, error } = await db
+            .from('messages')
+            .select('content, created_at')
+            .order('created_at', { ascending: false });
+
+        list.innerHTML = '';
+
+        if (error) {
+            list.innerHTML = '<div id="empty-msg">could not load messages :(</div>';
+            return;
+        }
+
+        if (!data || data.length === 0) {
+            list.innerHTML = '<div id="empty-msg">no messages yet — be the first! ✦</div>';
+            return;
+        }
+
+        for (const row of data) {
+            const card = document.createElement('div');
+            card.className = 'msg-card';
+
+            const date = new Date(row.created_at);
+            const dateStr = date.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' });
+            const timeStr = date.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' });
+
+            card.innerHTML = `
+                <div class="msg-text">${escapeHtml(row.content)}</div>
+                <div class="msg-meta">
+                    <span class="msg-stamp">anonymous</span>
+                    ${dateStr} at ${timeStr}
+                </div>`;
+            list.appendChild(card);
+        }
+    }
+
+    function escapeHtml(str) {
+        return str
+            .replace(/&/g, '&amp;')
+            .replace(/</g, '&lt;')
+            .replace(/>/g, '&gt;')
+            .replace(/"/g, '&quot;')
+            .replace(/'/g, '&#39;');
+    }
+
+    loadMessages();
+</script>
+</body>
+</html>
