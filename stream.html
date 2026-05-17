@@ -195,16 +195,9 @@
                         </span>
                     </div>
                     <div class="player-wrap" id="player-wrap">
-                        <div class="offline-screen" id="offline-screen">
-                            <div class="zzz">(— ω —) zzZ</div>
-                            <p>not streaming right now...</p>
-                            <p>check back later! ♡</p>
-                        </div>
                         <iframe
-                            id="stream-iframe"
                             src="https://stream.nevichan.moe/embed/video"
-                            allowfullscreen
-                            style="display:none;">
+                            allowfullscreen>
                         </iframe>
                     </div>
                     <div class="stream-info">
@@ -269,23 +262,17 @@
             const res = await fetch(`${OWNCAST}/api/status`);
             const data = await res.json();
 
-            const badge        = document.getElementById('live-badge');
-            const liveText     = document.getElementById('live-text');
-            const offlineScreen= document.getElementById('offline-screen');
-            const streamIframe = document.getElementById('stream-iframe');
-            const streamTitle  = document.getElementById('stream-title');
+            const badge       = document.getElementById('live-badge');
+            const liveText    = document.getElementById('live-text');
+            const streamTitle = document.getElementById('stream-title');
 
             if (data.online) {
                 badge.classList.remove('offline');
                 liveText.textContent = 'live';
-                offlineScreen.style.display = 'none';
-                streamIframe.style.display = 'block';
                 streamTitle.textContent = data.streamTitle || 'nevi is live!';
             } else {
                 badge.classList.add('offline');
                 liveText.textContent = 'offline';
-                offlineScreen.style.display = 'flex';
-                streamIframe.style.display = 'none';
                 streamTitle.textContent = 'nevi is offline~';
             }
         } catch (e) {
