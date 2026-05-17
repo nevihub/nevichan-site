@@ -101,6 +101,22 @@
             margin-bottom: 12px;
         }
 
+        input#username-input {
+            width: 100%;
+            font-family: 'MS PGothic', monospace;
+            font-size: 13px;
+            border: 1px solid #b5cde5;
+            border-radius: 4px;
+            padding: 7px 10px;
+            background: #f7fbff;
+            color: #222;
+            outline: none;
+            transition: border-color 0.2s;
+            margin-bottom: 8px;
+        }
+
+        input#username-input:focus { border-color: #6aa2d6; background: #fff; }
+
         textarea#msg-input {
             width: 100%;
             min-height: 90px;
@@ -154,7 +170,9 @@
         #form-status.err { color: #b94a4a; }
 
         /* ── messages ── */
-        #messages-list { display: flex; flex-direction: column; gap: 12px; }
+        #messages-list { display: flex; flex-direction: column; gap: 16px; }
+
+        .card-group { display: flex; flex-direction: column; }
 
         .msg-card {
             background: linear-gradient(135deg, #f0f7ff, #e8f2fb);
@@ -163,6 +181,15 @@
             padding: 12px 14px;
             position: relative;
             animation: fadeIn 0.4s ease;
+        }
+
+        .msg-card.reply-card {
+            background: linear-gradient(135deg, #f7fbff, #edf4fd);
+            border-left: 3px solid #a8c8e8;
+            border-radius: 6px;
+            padding: 9px 12px;
+            font-size: 13px;
+            animation: fadeIn 0.3s ease;
         }
 
         @keyframes fadeIn {
@@ -180,6 +207,10 @@
             font-size: 11px;
             color: #8aaac4;
             margin-top: 6px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            flex-wrap: wrap;
         }
 
         .msg-stamp {
@@ -189,8 +220,81 @@
             border-radius: 10px;
             padding: 1px 8px;
             font-size: 10px;
-            margin-right: 5px;
         }
+
+        .reply-btn {
+            background: none;
+            border: 1px solid #b5cde5;
+            color: #7aaacf;
+            font-family: 'MS PGothic', monospace;
+            font-size: 10px;
+            padding: 1px 9px;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: background 0.2s, color 0.2s;
+            margin-left: auto;
+        }
+        .reply-btn:hover { background: #ddeeff; color: #3a6ea5; }
+
+        .replies-container {
+            margin-top: 6px;
+            margin-left: 22px;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .inline-reply-form {
+            display: none;
+            margin-top: 6px;
+            margin-left: 22px;
+            background: #f0f7ff;
+            border: 1px dashed #b5cde5;
+            border-radius: 6px;
+            padding: 10px 12px;
+        }
+        .inline-reply-form.open { display: block; }
+
+        .reply-name-input, .reply-msg-input {
+            width: 100%;
+            font-family: 'MS PGothic', monospace;
+            font-size: 12px;
+            border: 1px solid #b5cde5;
+            border-radius: 4px;
+            padding: 5px 8px;
+            background: #fff;
+            color: #222;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+        .reply-name-input { margin-bottom: 6px; }
+        .reply-msg-input { min-height: 58px; resize: vertical; }
+        .reply-name-input:focus, .reply-msg-input:focus { border-color: #6aa2d6; }
+
+        .reply-form-row {
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            margin-top: 6px;
+            gap: 8px;
+        }
+
+        .reply-submit-btn {
+            background: linear-gradient(135deg, #7eb4e8, #5f9fd6);
+            color: white;
+            border: none;
+            padding: 5px 14px;
+            border-radius: 4px;
+            font-family: 'MS PGothic', monospace;
+            font-size: 12px;
+            cursor: pointer;
+            transition: opacity 0.2s;
+        }
+        .reply-submit-btn:hover:not(:disabled) { opacity: 0.85; }
+        .reply-submit-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+        .reply-status { font-size: 11px; min-height: 15px; margin-top: 4px; }
+        .reply-status.ok { color: #3a8a5c; }
+        .reply-status.err { color: #b94a4a; }
 
         #loading-msg, #empty-msg {
             color: #8aaac4;
@@ -199,7 +303,90 @@
             padding: 20px 0;
         }
 
-        footer.footer { margin: 20px 0 10px 0; display: block; }
+        /* ── admin strip ── */
+        .admin-strip {
+            padding: 6px 0 12px 0;
+            text-align: right;
+        }
+
+        .admin-toggle {
+            background: none;
+            border: none;
+            color: #b0c8de;
+            font-family: 'MS PGothic', monospace;
+            font-size: 11px;
+            cursor: pointer;
+            text-decoration: underline dotted;
+            padding: 0;
+        }
+        .admin-toggle:hover { color: #7aaacf; }
+
+        .admin-login-panel {
+            display: none;
+            background: white;
+            border: 1px solid #c8ddf0;
+            border-radius: 6px;
+            padding: 12px 14px;
+            margin-top: 6px;
+            text-align: left;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+        .admin-login-panel.open { display: block; }
+
+        .admin-field {
+            width: 100%;
+            font-family: 'MS PGothic', monospace;
+            font-size: 12px;
+            border: 1px solid #b5cde5;
+            border-radius: 4px;
+            padding: 5px 8px;
+            background: #f7fbff;
+            color: #222;
+            outline: none;
+            margin-bottom: 6px;
+            transition: border-color 0.2s;
+        }
+        .admin-field:focus { border-color: #6aa2d6; background: #fff; }
+
+        .admin-sign-in-btn {
+            background: linear-gradient(135deg, #7eb4e8, #5f9fd6);
+            color: white;
+            border: none;
+            padding: 5px 14px;
+            border-radius: 4px;
+            font-family: 'MS PGothic', monospace;
+            font-size: 12px;
+            cursor: pointer;
+            transition: opacity 0.2s;
+        }
+        .admin-sign-in-btn:hover { opacity: 0.88; }
+
+        .admin-login-status { font-size: 11px; margin-top: 5px; min-height: 16px; }
+        .admin-login-status.err { color: #b94a4a; }
+
+        .admin-bar {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            justify-content: flex-end;
+            font-size: 11px;
+            color: #4a7ab5;
+        }
+
+        .admin-logout-btn {
+            background: none;
+            border: 1px solid #b5cde5;
+            color: #6685a8;
+            font-family: 'MS PGothic', monospace;
+            font-size: 11px;
+            padding: 2px 10px;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        .admin-logout-btn:hover { background: #e8f2fb; }
+
+        footer.footer { margin: 0 0 10px 0; display: block; }
 
         .footer-panel {
             background: linear-gradient(135deg, #4c92d9, #d5e4f2);
@@ -225,7 +412,7 @@
 <header class="header">
     <div class="container">
         <div class="header-panel">
-            <div class="logo">TITLE OF YOUR SITE</div>
+            <div class="logo">nevichan's website~</div>
             <nav class="navbar">
                 <a href="index.html">TOP</a>
                 <a href="index.html#webmaster">Webmaster</a>
@@ -245,7 +432,8 @@
         <section class="content-section">
             <div class="section-header">✦ Leave a message ✦</div>
             <div class="section-content">
-                <p class="form-note">All messages are anonymous and public. Be kind! ♡</p>
+                <p class="form-note">Username is optional — leave it blank to post anonymously. Be kind! ♡</p>
+                <input id="username-input" type="text" maxlength="30" placeholder="your name (optional)" autocomplete="off">
                 <textarea id="msg-input" maxlength="300" placeholder="say something nice..."></textarea>
                 <div class="form-row">
                     <span id="char-count">0 / 300</span>
@@ -268,10 +456,31 @@
     </div>
 </div>
 
+<!-- owner login strip -->
+<div class="container">
+    <div class="admin-strip">
+        <div id="admin-logged-out">
+            <button class="admin-toggle" id="admin-toggle">owner login</button>
+            <div class="admin-login-panel" id="admin-login-panel">
+                <input class="admin-field" type="email" id="admin-email" placeholder="email" autocomplete="email">
+                <input class="admin-field" type="password" id="admin-pass" placeholder="password" autocomplete="current-password">
+                <button class="admin-sign-in-btn" id="admin-sign-in">sign in ✦</button>
+                <div class="admin-login-status" id="admin-login-status"></div>
+            </div>
+        </div>
+        <div id="admin-logged-in" style="display:none;">
+            <div class="admin-bar">
+                <span>✦ signed in as admin</span>
+                <button class="admin-logout-btn" id="admin-logout">log out</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <footer class="footer">
     <div class="container">
         <div class="footer-panel">
-            &copy; 2025 electric-tenshi.
+            @2026 nevichan
         </div>
     </div>
 </footer>
@@ -284,79 +493,84 @@
     const { createClient } = supabase;
     const db = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-    const input    = document.getElementById('msg-input');
-    const counter  = document.getElementById('char-count');
-    const btn      = document.getElementById('submit-btn');
-    const status   = document.getElementById('form-status');
-    const list     = document.getElementById('messages-list');
+    let isAdmin = false;
 
-    // character counter
+    // ── admin auth UI ──
+    const adminToggle     = document.getElementById('admin-toggle');
+    const adminPanel      = document.getElementById('admin-login-panel');
+    const adminLoggedOut  = document.getElementById('admin-logged-out');
+    const adminLoggedIn   = document.getElementById('admin-logged-in');
+    const adminLoginStatus = document.getElementById('admin-login-status');
+
+    adminToggle.addEventListener('click', () => adminPanel.classList.toggle('open'));
+
+    document.getElementById('admin-sign-in').addEventListener('click', async () => {
+        const email = document.getElementById('admin-email').value.trim();
+        const pass  = document.getElementById('admin-pass').value;
+        adminLoginStatus.textContent = '';
+        adminLoginStatus.className = 'admin-login-status';
+        const { error } = await db.auth.signInWithPassword({ email, password: pass });
+        if (error) {
+            adminLoginStatus.textContent = 'incorrect email or password.';
+            adminLoginStatus.className = 'admin-login-status err';
+        }
+    });
+
+    document.getElementById('admin-logout').addEventListener('click', () => db.auth.signOut());
+
+    db.auth.onAuthStateChange((_event, session) => {
+        isAdmin = !!session;
+        adminLoggedOut.style.display = isAdmin ? 'none' : '';
+        adminLoggedIn.style.display  = isAdmin ? '' : 'none';
+        loadMessages();
+    });
+
+    // ── main form ──
+    const usernameInput = document.getElementById('username-input');
+    const input   = document.getElementById('msg-input');
+    const counter = document.getElementById('char-count');
+    const btn     = document.getElementById('submit-btn');
+    const status  = document.getElementById('form-status');
+    const list    = document.getElementById('messages-list');
+
     input.addEventListener('input', () => {
         const len = input.value.length;
         counter.textContent = `${len} / 300`;
         counter.classList.toggle('warn', len >= 270);
     });
 
-    // submit
     btn.addEventListener('click', async () => {
         const text = input.value.trim();
         if (!text) return;
+        const name = usernameInput.value.trim();
+        const payload = JSON.stringify({ name: name || '', msg: text });
 
         btn.disabled = true;
         status.textContent = '';
         status.className = '';
 
-        const { error } = await db.from('messages').insert({ content: text });
+        const { error } = await db.from('messages').insert({ content: payload, parent_id: null });
 
         if (error) {
             status.textContent = 'something went wrong. please try again!';
             status.className = 'err';
         } else {
             input.value = '';
+            usernameInput.value = '';
             counter.textContent = '0 / 300';
             status.textContent = 'message posted! thank you ♡';
             status.className = 'ok';
             await loadMessages();
         }
-
         btn.disabled = false;
     });
 
-    // load messages
-    async function loadMessages() {
-        const { data, error } = await db
-            .from('messages')
-            .select('content, created_at')
-            .order('created_at', { ascending: false });
-
-        list.innerHTML = '';
-
-        if (error) {
-            list.innerHTML = '<div id="empty-msg">could not load messages :(</div>';
-            return;
-        }
-
-        if (!data || data.length === 0) {
-            list.innerHTML = '<div id="empty-msg">no messages yet — be the first! ✦</div>';
-            return;
-        }
-
-        for (const row of data) {
-            const card = document.createElement('div');
-            card.className = 'msg-card';
-
-            const date = new Date(row.created_at);
-            const dateStr = date.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' });
-            const timeStr = date.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' });
-
-            card.innerHTML = `
-                <div class="msg-text">${escapeHtml(row.content)}</div>
-                <div class="msg-meta">
-                    <span class="msg-stamp">anonymous</span>
-                    ${dateStr} at ${timeStr}
-                </div>`;
-            list.appendChild(card);
-        }
+    function parseContent(raw) {
+        try {
+            const parsed = JSON.parse(raw);
+            if (parsed && typeof parsed.msg === 'string') return parsed;
+        } catch (_) {}
+        return { name: '', msg: raw };
     }
 
     function escapeHtml(str) {
@@ -368,7 +582,121 @@
             .replace(/'/g, '&#39;');
     }
 
-    loadMessages();
+    function formatDate(ts) {
+        const d = new Date(ts);
+        const date = d.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' });
+        const time = d.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' });
+        return `${date} at ${time}`;
+    }
+
+    function buildCard(row, isReply) {
+        const { name, msg } = parseContent(row.content);
+        // all replies are by the owner (enforced by RLS), so always show owner stamp
+        const displayName = isReply
+            ? 'nevichan ✦'
+            : (name ? escapeHtml(name) : 'anonymous');
+
+        const card = document.createElement('div');
+        card.className = isReply ? 'msg-card reply-card' : 'msg-card';
+        card.innerHTML = `
+            <div class="msg-text">${escapeHtml(msg)}</div>
+            <div class="msg-meta">
+                <span class="msg-stamp" style="${isReply ? 'background:#d4eaff;color:#2255aa;font-weight:bold;' : ''}">${displayName}</span>
+                ${formatDate(row.created_at)}
+                ${(!isReply && isAdmin) ? `<button class="reply-btn" data-id="${row.id}">reply ✦</button>` : ''}
+            </div>`;
+        return card;
+    }
+
+    function buildReplyForm(parentId) {
+        const form = document.createElement('div');
+        form.className = 'inline-reply-form';
+        form.id = `reply-form-${parentId}`;
+        form.innerHTML = `
+            <textarea class="reply-msg-input" maxlength="300" placeholder="write a reply..."></textarea>
+            <div class="reply-form-row">
+                <button class="reply-submit-btn">post reply ✦</button>
+            </div>
+            <div class="reply-status"></div>`;
+
+        const replyBtn = form.querySelector('.reply-submit-btn');
+        const replyStatus = form.querySelector('.reply-status');
+
+        replyBtn.addEventListener('click', async () => {
+            const text = form.querySelector('.reply-msg-input').value.trim();
+            if (!text) return;
+            const payload = JSON.stringify({ name: 'nevichan', msg: text });
+
+            replyBtn.disabled = true;
+            replyStatus.textContent = '';
+            replyStatus.className = 'reply-status';
+
+            const { error } = await db.from('messages').insert({ content: payload, parent_id: parentId });
+
+            if (error) {
+                replyStatus.textContent = 'something went wrong!';
+                replyStatus.className = 'reply-status err';
+            } else {
+                form.querySelector('.reply-msg-input').value = '';
+                replyStatus.textContent = 'reply posted! ♡';
+                replyStatus.className = 'reply-status ok';
+                form.classList.remove('open');
+                await loadMessages();
+            }
+            replyBtn.disabled = false;
+        });
+
+        return form;
+    }
+
+    async function loadMessages() {
+        const { data, error } = await db
+            .from('messages')
+            .select('id, content, created_at, parent_id')
+            .order('created_at', { ascending: true });
+
+        list.innerHTML = '';
+
+        if (error) {
+            list.innerHTML = '<div id="empty-msg">could not load messages :(</div>';
+            return;
+        }
+        if (!data || data.length === 0) {
+            list.innerHTML = '<div id="empty-msg">no messages yet — be the first! ✦</div>';
+            return;
+        }
+
+        const topLevel = data.filter(r => !r.parent_id).reverse();
+        const replyMap = {};
+        for (const r of data.filter(r => r.parent_id)) {
+            if (!replyMap[r.parent_id]) replyMap[r.parent_id] = [];
+            replyMap[r.parent_id].push(r);
+        }
+
+        for (const row of topLevel) {
+            const group = document.createElement('div');
+            group.className = 'card-group';
+
+            group.appendChild(buildCard(row, false));
+
+            const repliesDiv = document.createElement('div');
+            repliesDiv.className = 'replies-container';
+            for (const reply of (replyMap[row.id] || [])) {
+                repliesDiv.appendChild(buildCard(reply, true));
+            }
+            group.appendChild(repliesDiv);
+            group.appendChild(buildReplyForm(row.id));
+
+            list.appendChild(group);
+        }
+
+        list.querySelectorAll('.reply-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const form = document.getElementById(`reply-form-${btn.dataset.id}`);
+                form.classList.toggle('open');
+            });
+        });
+    }
 </script>
 </body>
 </html>
