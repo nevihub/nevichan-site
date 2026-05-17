@@ -209,10 +209,6 @@
                     </div>
                     <div class="stream-info">
                         <div class="stream-title" id="stream-title">nevi is offline~</div>
-                        <div class="stream-meta">
-                            <span id="viewer-count">👁 — viewers</span>
-                            <span id="stream-category"></span>
-                        </div>
                     </div>
                 </div>
             </div>
@@ -278,8 +274,6 @@
             const offlineScreen= document.getElementById('offline-screen');
             const streamIframe = document.getElementById('stream-iframe');
             const streamTitle  = document.getElementById('stream-title');
-            const viewerCount  = document.getElementById('viewer-count');
-            const streamCat    = document.getElementById('stream-category');
 
             if (data.online) {
                 badge.classList.remove('offline');
@@ -287,23 +281,15 @@
                 offlineScreen.style.display = 'none';
                 streamIframe.style.display = 'block';
                 streamTitle.textContent = data.streamTitle || 'nevi is live!';
-                viewerCount.textContent = `👁 ${data.viewerCount ?? 0} viewer${data.viewerCount !== 1 ? 's' : ''}`;
-                if (data.lastConnectTime) {
-                    const mins = Math.floor((Date.now() - new Date(data.lastConnectTime)) / 60000);
-                    streamCat.textContent = `⏱ ${mins}m`;
-                }
             } else {
                 badge.classList.add('offline');
                 liveText.textContent = 'offline';
                 offlineScreen.style.display = 'flex';
                 streamIframe.style.display = 'none';
                 streamTitle.textContent = 'nevi is offline~';
-                viewerCount.textContent = '👁 — viewers';
-                streamCat.textContent = '';
             }
         } catch (e) {
             console.warn('stream api unreachable:', e);
-            document.getElementById('viewer-count').textContent = '👁 (api unreachable)';
         }
     }
 
