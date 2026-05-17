@@ -160,7 +160,7 @@
 
     async function checkStatus() {
         try {
-            var res = await fetch('https://stream.nevichan.moe/api/status');
+            var res = await fetch('https://stream-status.kitkatbaarr.workers.dev');
             var data = await res.json();
             var badge = document.getElementById('live-badge');
             var liveText = document.getElementById('live-text');
