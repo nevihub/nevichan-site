@@ -17,13 +17,18 @@
         body {
             font-family: 'MS PGothic', monospace;
             font-size: 14px;
-            background: url('https://file.garden/Z3nf4eZzZUtRPfhK/okumono-haikei5.png');
-            background-size: cover;
-            background-attachment: fixed;
-            background-repeat: none;
-            background-color: rgba(179, 196, 255, 0.7);
-            background-blend-mode: overlay;
+            background: url('ezgif-60bf49456f130f82.gif') center center / cover fixed;
             color: #333;
+            position: relative;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.45);
+            z-index: -1;
+            pointer-events: none;
         }
 
         ::-webkit-scrollbar { width: 12px; }
@@ -181,6 +186,11 @@
             padding: 12px 14px;
             position: relative;
             animation: fadeIn 0.4s ease;
+        }
+
+        .msg-card.owner-card {
+            background: linear-gradient(135deg, #b8d8f8, #a8ccf0);
+            border: 1px solid #7aaad8;
         }
 
         .msg-card.reply-card {
@@ -414,12 +424,13 @@
         <div class="header-panel">
             <div class="logo">nevichan's website~</div>
             <nav class="navbar">
-                <a href="index.html">TOP</a>
-                <a href="index.html#webmaster">Webmaster</a>
-                <a href="guestbook.html">Guestbook</a>
-                <a href="index.html#link1">Link 1</a>
-                <a href="index.html#link2">Link 2</a>
-                <a href="index.html#link3">Link 3</a>
+                <a href="index.html">home</a>
+                <a href="guestbook.html">submissions</a>
+                <a href="blog.html">blog</a>
+                <a href="credits.html">credits</a>
+                <a href="https://myanimelist.net/profile/_nevi" target="_blank" rel="noopener">mal</a>
+                <a href="https://vndb.org/u219801" target="_blank" rel="noopener">vndb</a>
+                <a href="https://x.com/nevitwt" target="_blank" rel="noopener">twt</a>
             </nav>
         </div>
     </div>
@@ -480,7 +491,7 @@
 <footer class="footer">
     <div class="container">
         <div class="footer-panel">
-            @2026 nevichan
+            layout by <a href="https://electric-tenshi.nekoweb.org/" target="_blank" rel="noopener" style="color:#02193d;">electric-tenshi</a> · modified by nevichan
         </div>
     </div>
 </footer>
@@ -543,7 +554,7 @@
         const text = input.value.trim();
         if (!text) return;
         const name = usernameInput.value.trim();
-        const payload = JSON.stringify({ name: name || '', msg: text });
+        const payload = JSON.stringify({ name: name || '', msg: text, owner: isAdmin });
 
         btn.disabled = true;
         status.textContent = '';
@@ -590,18 +601,22 @@
     }
 
     function buildCard(row, isReply) {
-        const { name, msg } = parseContent(row.content);
-        // all replies are by the owner (enforced by RLS), so always show owner stamp
-        const displayName = isReply
+        const parsed = parseContent(row.content);
+        const { msg } = parsed;
+        const isOwnerPost = isReply || !!parsed.owner;
+        const displayName = isOwnerPost
             ? 'nevichan ✦'
-            : (name ? escapeHtml(name) : 'anonymous');
+            : (parsed.name ? escapeHtml(parsed.name) : 'anonymous');
 
         const card = document.createElement('div');
-        card.className = isReply ? 'msg-card reply-card' : 'msg-card';
+        if (isReply)           card.className = 'msg-card reply-card';
+        else if (parsed.owner) card.className = 'msg-card owner-card';
+        else                   card.className = 'msg-card';
+
         card.innerHTML = `
             <div class="msg-text">${escapeHtml(msg)}</div>
             <div class="msg-meta">
-                <span class="msg-stamp" style="${isReply ? 'background:#d4eaff;color:#2255aa;font-weight:bold;' : ''}">${displayName}</span>
+                <span class="msg-stamp" style="${isOwnerPost ? 'background:#d4eaff;color:#2255aa;font-weight:bold;' : ''}">${displayName}</span>
                 ${formatDate(row.created_at)}
                 ${(!isReply && isAdmin) ? `<button class="reply-btn" data-id="${row.id}">reply ✦</button>` : ''}
             </div>`;

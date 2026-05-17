@@ -24,13 +24,18 @@
         body {
             font-family: 'MS PGothic', monospace;
             font-size: 14px;
-            background: url('https://file.garden/Z3nf4eZzZUtRPfhK/okumono-haikei5.png');
-            background-size: cover;
-            background-attachment: fixed;
-            background-repeat: none;
-            background-color: rgba(179, 196, 255, 0.7);
-            background-blend-mode: overlay;
+            background: url('ezgif-60bf49456f130f82.gif') center center / cover fixed;
             color: #333;
+            position: relative;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.45);
+            z-index: -1;
+            pointer-events: none;
         }
 
         /* scrollbar */
@@ -160,7 +165,8 @@
         }
 
         .sidebar { display: flex; flex-direction: column; }
-        .sidebar .section-content { max-height: 150px; }
+        .sidebar .section-content { max-height: 150px; overflow-y: auto; }
+        .sidebar .section-content.no-clip { max-height: none; overflow-y: visible; }
 
         .button-section {
             background: white;
@@ -222,14 +228,15 @@
     <header class="header">
         <div class="container">
             <div class="header-panel">
-                <div class="logo">nevichan's website~</div>
+                <div class="logo">nevichan's website!</div>
                 <nav class="navbar">
-                    <a href="#top">TOP</a>
-                    <a href="#webmaster">Webmaster</a>
-                    <a href="guestbook.html">Guestbook</a>
-                    <a href="#link1">Link 1</a>
-                    <a href="#link2">Link 2</a>
-                    <a href="#link3">Link 3</a>
+                    <a href="#top">home</a>
+                    <a href="guestbook.html">submissions</a>
+                    <a href="blog.html">blog</a>
+                    <a href="credits.html">credits</a>
+                    <a href="https://myanimelist.net/profile/_nevi" target="_blank" rel="noopener">mal</a>
+                    <a href="https://vndb.org/u219801" target="_blank" rel="noopener">vndb</a>
+                    <a href="https://x.com/nevitwt" target="_blank" rel="noopener">twt</a>
                 </nav>
             </div>
         </div>
@@ -270,11 +277,11 @@
                     <div class="section-header">Site Updates</div>
                     <div class="section-content">
                         <ul>
-                            <li><strong>date here</strong> update here</li>
-                            <li><strong>date here</strong> update here</li>
-                            <li><strong>date here</strong> update here</li>
-                            <li><strong>date here</strong> update here</li>
-                            <li><strong>date here</strong> update here</li>
+                            <li><strong>05/17/26 ·</strong> the blog is open! ✦</li>
+                            <li><strong>05/17/26 ·</strong> site has a name now~</li>
+                            <li><strong>05/17/26 ·</strong> added animated bg + dark overlay</li>
+                            <li><strong>05/17/26 ·</strong> submissions page is live!</li>
+                            <li><strong>05/17/26 ·</strong> site is born ♡</li>
                         </ul>
                     </div>
                 </section>
@@ -283,8 +290,7 @@
                     <div class="section-header">To-Do List</div>
                     <div class="section-content">
                         <ul>
-                            <li>something here</li>
-                            <li>something here</li>
+                            <li>update my blog...</li>
                             <li>something here</li>
                             <li>something here</li>
                             <li>something here</li>
@@ -293,31 +299,13 @@
                     </div>
                 </section>
 
-                <div class="button-section">
-                    <div class="section-header">Find me!</div>
-                    <div class="button-content" style="text-align:center; padding: 12px 15px;">
-                        <a href="https://x.com/nevitwt" target="_blank" rel="noopener" style="
-                            display: inline-block;
-                            background: linear-gradient(135deg, #7eb4e8, #5f9fd6);
-                            color: white;
-                            text-decoration: none;
-                            padding: 6px 18px;
-                            border-radius: 20px;
-                            font-size: 13px;
-                            font-family: 'MS PGothic', monospace;
-                        ">@nevitwt on twitter ✦</a>
+                <section class="content-section">
+                    <div class="section-header">Visitors</div>
+                    <div class="section-content no-clip" style="text-align:center;">
+                        <a href="https://info.flagcounter.com/Mf0r"><img src="https://s01.flagcounter.com/count2/Mf0r/bg_FFFFFF/txt_000000/border_CCCCCC/columns_2/maxflags_10/viewers_0/labels_0/pageviews_1/flags_0/percent_0/" alt="Flag Counter" border="0" style="max-width:100%;"></a>
                     </div>
-                </div>
+                </section>
 
-                <div class="button-section">
-                    <div class="section-header">Link me back?</div>
-                    <div class="button-content">
-                        <div class="button-area">
-                            <img src="https://file.garden/Z3nf4eZzZUtRPfhK/template%20assets/placeholder.png" alt="my site!" class="site-button">
-                            <textarea class="button-code" readonly>&lt;a href="https://yoursite.com"&gt;&lt;img src="https://file.garden/Z3nf4eZzZUtRPfhK/template%20assets/placeholder.png" alt="my site!" width="88" height="31"&gt;&lt;/a&gt;</textarea>
-                        </div>
-                    </div>
-                </div>
             </aside>
         </div>
     </div>
@@ -325,7 +313,7 @@
     <footer class="footer">
         <div class="container">
             <div class="footer-panel">
-                @2026 nevichan
+                layout by <a href="https://electric-tenshi.nekoweb.org/" target="_blank" rel="noopener" style="color:#02193d;">electric-tenshi</a> · modified by nevichan
             </div>
         </div>
     </footer>

@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Post ✦ nevichan's website~</title>
+    <link rel="icon" type="image/x-icon" href="https://64.media.tumblr.com/ed6fac0fe126e6798f1b00fe44a1532e/2560c9d1d2d874bf-9f/s75x75_c1/836357977fbf0d8d2e4ff9db1710ce412e5c4ea2.gifv">
+    <style>
+        :root { --site-max-width: 960px; --site-padding-x: 20px; --gutter: 20px; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'MS PGothic', monospace;
+            font-size: 14px;
+            background: url('ezgif-60bf49456f130f82.gif') center center / cover fixed;
+            color: #333;
+            position: relative;
+        }
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.45);
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        ::-webkit-scrollbar { width: 12px; }
+        ::-webkit-scrollbar-track { background: #e9ecef; border-radius: 6px; }
+        ::-webkit-scrollbar-thumb { background: #a8c8e8; border-radius: 6px; border: 2px solid #e9ecef; }
+        ::-webkit-scrollbar-thumb:hover { background: #90b6e0; }
+
+        .container { max-width: var(--site-max-width); margin: 0 auto; padding: 0 var(--site-padding-x); }
+
+        /* reading progress bar */
+        #reading-progress {
+            position: fixed; top: 0; left: 0; height: 3px; width: 0%;
+            background: linear-gradient(90deg, #7eb4e8, #5f9fd6, #b8d8f0);
+            z-index: 9999;
+            transition: width 0.08s linear;
+        }
+
+        header.header { margin: 20px 0; }
+        .header-panel { background: linear-gradient(135deg, #7eb4e8, #6aa2d6); padding: 10px 16px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); border-radius: 6px; }
+        .logo { color: white; font-size: 24px; font-weight: bold; margin-bottom: 10px; }
+        .navbar { background: rgba(255,255,255,0.9); padding: 8px 12px; border-radius: 4px; }
+        .navbar a { color: #0048bd; text-decoration: none; margin-right: 15px; padding: 4px 8px; border-radius: 3px; transition: background-color 0.2s; }
+        .navbar a:hover { background-color: #e8f2f8; color: #4a6c8a; font-weight: bold; }
+
+        .page-content { margin: 20px auto 20px; }
+
+        .back-link { display: inline-block; margin-bottom: 14px; color: #a8c8e8; text-decoration: none; font-size: 12px; }
+        .back-link:hover { color: #fff; text-decoration: underline; }
+
+        /* two-column layout */
+        .post-layout {
+            display: grid;
+            grid-template-columns: 1fr 220px;
+            gap: var(--gutter);
+            align-items: start;
+        }
+
+        /* article */
+        .post-section { background: white; border: 1px solid #c8ddf0; border-radius: 6px; box-shadow: 0 2px 4px rgba(0,0,0,0.05); }
+        .post-header-panel { background: linear-gradient(135deg, #c8ddf0, #d5e4f2); padding: 16px 20px; border-bottom: 1px solid #b5cde5; border-radius: 5px 5px 0 0; }
+        .post-h-title { font-size: 20px; font-weight: bold; color: #0048bd; line-height: 1.35; margin-bottom: 10px; }
+        .post-h-meta { display: flex; align-items: center; flex-wrap: wrap; gap: 7px; font-size: 11px; color: #6685a8; }
+        .post-h-tag { background: #ddeeff; color: #4a7ab5; border-radius: 10px; padding: 1px 9px; font-size: 10px; }
+
+        .reading-stats {
+            display: flex; align-items: center; gap: 16px;
+            background: #f7fbff; border-bottom: 1px solid #e0ecf5;
+            padding: 8px 20px; font-size: 11px; color: #8aaac4;
+        }
+
+        .post-body { padding: 20px; line-height: 1.8; color: #1a3354; }
+        .post-body h1 { font-size: 18px; color: #0048bd; margin: 22px 0 10px; border-bottom: 1px solid #c8ddf0; padding-bottom: 4px; }
+        .post-body h2 { font-size: 16px; color: #0867c7; margin: 18px 0 8px; }
+        .post-body h3 { font-size: 14px; color: #3a6ea5; margin: 14px 0 6px; }
+        .post-body p { margin-bottom: 12px; }
+        .post-body a { color: #0059b3; }
+        .post-body a:hover { text-decoration: underline; }
+        .post-body ul, .post-body ol { padding-left: 22px; margin-bottom: 12px; }
+        .post-body li { margin-bottom: 4px; }
+        .post-body blockquote { border-left: 3px solid #a8c8e8; padding: 8px 14px; background: #f0f7ff; margin-bottom: 12px; color: #4a7ab5; font-style: italic; border-radius: 0 4px 4px 0; }
+        .post-body code { background: #e8f2fb; padding: 1px 5px; border-radius: 3px; font-size: 12px; }
+        .post-body pre { background: #e8f2fb; padding: 12px; border-radius: 4px; margin-bottom: 12px; overflow-x: auto; }
+        .post-body pre code { background: none; padding: 0; }
+        .post-body hr { border: none; border-top: 1px solid #c8ddf0; margin: 18px 0; }
+        .post-body img { max-width: 100%; border-radius: 4px; margin: 8px 0; }
+        .post-body table { border-collapse: collapse; width: 100%; margin-bottom: 12px; }
+        .post-body th, .post-body td { border: 1px solid #c8ddf0; padding: 6px 10px; text-align: left; }
+        .post-body th { background: #e8f2fb; color: #0867c7; }
+
+        .not-found { text-align: center; color: #8aaac4; padding: 40px; }
+
+        /* TOC sidebar */
+        .toc-sidebar {
+            position: sticky;
+            top: 16px;
+            background: white; border: 1px solid #c8ddf0;
+            border-radius: 6px; box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            max-height: calc(100vh - 32px); overflow-y: auto;
+        }
+        .toc-header {
+            background: linear-gradient(135deg, #c8ddf0, #d5e4f2);
+            padding: 7px 13px; border-bottom: 1px solid #b5cde5;
+            font-weight: bold; border-radius: 5px 5px 0 0; color: #0867c7; font-size: 12px;
+        }
+        .toc-body { padding: 10px 12px; }
+        #toc-list { list-style: none; }
+        #toc-list li { margin-bottom: 3px; }
+        #toc-list li.toc-h3 { padding-left: 10px; }
+        #toc-list a {
+            color: #4a7ab5; text-decoration: none; font-size: 11px;
+            display: block; padding: 3px 6px; border-radius: 3px; line-height: 1.4;
+            transition: background 0.15s, color 0.15s;
+        }
+        #toc-list a:hover { background: #e8f2fb; }
+        #toc-list a.active { background: #ddeeff; color: #0048bd; font-weight: bold; }
+        .toc-empty { color: #aac4da; font-size: 11px; }
+
+        footer.footer { margin: 0 0 10px; }
+        .footer-panel { background: linear-gradient(135deg, #4c92d9, #d5e4f2); padding: 20px 16px; text-align: center; font-size: 12px; color: #02193d; border-radius: 6px; }
+
+        @media (max-width: 768px) {
+            :root { --site-padding-x: 10px; }
+            header.header { margin: 10px 0; }
+            .post-layout { grid-template-columns: 1fr; }
+            .toc-sidebar { position: static; max-height: 180px; }
+            .navbar a { display: block; margin: 2px 0; }
+        }
+    </style>
+</head>
+<body>
+
+<div id="reading-progress"></div>
+
+<header class="header">
+    <div class="container">
+        <div class="header-panel">
+            <div class="logo">nevichan's website~</div>
+            <nav class="navbar">
+                <a href="index.html">home</a>
+                <a href="guestbook.html">submissions</a>
+                <a href="blog.html">blog</a>
+                <a href="credits.html">credits</a>
+                <a href="https://myanimelist.net/profile/_nevi" target="_blank" rel="noopener">mal</a>
+                <a href="https://vndb.org/u219801" target="_blank" rel="noopener">vndb</a>
+                <a href="https://x.com/nevitwt" target="_blank" rel="noopener">twt</a>
+            </nav>
+        </div>
+    </div>
+</header>
+
+<div class="container">
+    <div class="page-content">
+        <a class="back-link" href="blog.html">← back to blog</a>
+        <div class="post-layout">
+            <div id="post-main"></div>
+            <aside class="toc-sidebar">
+                <div class="toc-header">✦ contents</div>
+                <div class="toc-body">
+                    <ul id="toc-list"><li><span class="toc-empty">loading...</span></li></ul>
+                </div>
+            </aside>
+        </div>
+    </div>
+</div>
+
+<footer class="footer">
+    <div class="container">
+        <div class="footer-panel">layout by <a href="https://electric-tenshi.nekoweb.org/" target="_blank" rel="noopener" style="color:#02193d;">electric-tenshi</a> · modified by nevichan</div>
+    </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+<script>
+    const SUPABASE_URL      = 'https://nfpshvdjdfyplsgjvnbu.supabase.co';
+    const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5mcHNodmRqZGZ5cGxzZ2p2bmJ1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzkwMTAzMDEsImV4cCI6MjA5NDU4NjMwMX0.-kEd16tXd4fkyn8WPw6nUF-SihH7UNWSmtiuL0S4uto';
+    const { createClient } = supabase;
+    const db = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+    const progressBar = document.getElementById('reading-progress');
+    const postMain    = document.getElementById('post-main');
+    const tocList     = document.getElementById('toc-list');
+
+    // scroll progress
+    window.addEventListener('scroll', () => {
+        const total = document.documentElement.scrollHeight - window.innerHeight;
+        progressBar.style.width = (total > 0 ? (window.scrollY / total) * 100 : 0) + '%';
+    });
+
+    async function loadPost() {
+        const id = new URLSearchParams(window.location.search).get('id');
+        if (!id) { showNotFound(); return; }
+
+        const { data, error } = await db
+            .from('posts')
+            .select('id, title, content, tags, published_at')
+            .eq('id', id)
+            .single();
+
+        if (error || !data) { showNotFound(); return; }
+        document.title = `${data.title} ✦ nevichan's website~`;
+        renderPost(data);
+    }
+
+    function renderPost(post) {
+        const tags    = post.tags ? post.tags.split(',').map(t => t.trim()).filter(Boolean) : [];
+        const content = post.content || '';
+        const words   = content.trim().split(/\s+/).filter(Boolean).length;
+        const mins    = Math.max(1, Math.round(words / 200));
+        const date    = new Date(post.published_at).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+
+        const section = document.createElement('div');
+        section.className = 'post-section';
+        section.innerHTML = `
+            <div class="post-header-panel">
+                <div class="post-h-title">${esc(post.title)}</div>
+                <div class="post-h-meta">
+                    <span>${date}</span>
+                    ${tags.map(t => `<span class="post-h-tag">${esc(t)}</span>`).join('')}
+                </div>
+            </div>
+            <div class="reading-stats">
+                <span>📖 ${mins} min read</span>
+                <span>✦ ${words.toLocaleString()} words</span>
+            </div>
+            <div class="post-body" id="post-body"></div>`;
+
+        postMain.appendChild(section);
+        const bodyEl = document.getElementById('post-body');
+        bodyEl.innerHTML = marked.parse(content);
+        buildTOC(bodyEl);
+    }
+
+    function buildTOC(bodyEl) {
+        const headings = bodyEl.querySelectorAll('h1, h2, h3');
+        tocList.innerHTML = '';
+
+        if (headings.length === 0) {
+            tocList.innerHTML = '<li><span class="toc-empty">no headings</span></li>';
+            return;
+        }
+
+        headings.forEach((h, i) => {
+            h.id = `h-${i}`;
+            const li = document.createElement('li');
+            if (h.tagName === 'H3') li.className = 'toc-h3';
+            const a = document.createElement('a');
+            a.href = `#h-${i}`;
+            a.textContent = h.textContent;
+            a.addEventListener('click', e => {
+                e.preventDefault();
+                h.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            });
+            li.appendChild(a);
+            tocList.appendChild(li);
+        });
+
+        // highlight active section while scrolling
+        const observer = new IntersectionObserver(entries => {
+            entries.forEach(entry => {
+                const link = tocList.querySelector(`a[href="#${entry.target.id}"]`);
+                if (link) link.classList.toggle('active', entry.isIntersecting);
+            });
+        }, { rootMargin: '-5% 0px -80% 0px' });
+
+        headings.forEach(h => observer.observe(h));
+    }
+
+    function showNotFound() {
+        postMain.innerHTML = `
+            <div class="post-section">
+                <div class="post-header-panel"><div class="post-h-title">post not found</div></div>
+                <div class="not-found">this post doesn't exist or may have been deleted.</div>
+            </div>`;
+        tocList.innerHTML = '<li><span class="toc-empty">—</span></li>';
+    }
+
+    function esc(s) {
+        return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');
+    }
+
+    loadPost();
+</script>
+</body>
+</html>

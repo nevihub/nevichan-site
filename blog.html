@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Blog ✦ nevichan's website~</title>
+    <link rel="icon" type="image/x-icon" href="https://64.media.tumblr.com/ed6fac0fe126e6798f1b00fe44a1532e/2560c9d1d2d874bf-9f/s75x75_c1/836357977fbf0d8d2e4ff9db1710ce412e5c4ea2.gifv">
+    <style>
+        :root { --site-max-width: 960px; --site-padding-x: 20px; --gutter: 20px; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'MS PGothic', monospace;
+            font-size: 14px;
+            background: url('ezgif-60bf49456f130f82.gif') center center / cover fixed;
+            color: #333;
+            position: relative;
+        }
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.45);
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        ::-webkit-scrollbar { width: 12px; }
+        ::-webkit-scrollbar-track { background: #e9ecef; border-radius: 6px; }
+        ::-webkit-scrollbar-thumb { background: #a8c8e8; border-radius: 6px; border: 2px solid #e9ecef; }
+        ::-webkit-scrollbar-thumb:hover { background: #90b6e0; }
+
+        .container { max-width: var(--site-max-width); margin: 0 auto; padding: 0 var(--site-padding-x); }
+
+        header.header { margin: 20px 0; }
+        .header-panel {
+            background: linear-gradient(135deg, #7eb4e8, #6aa2d6);
+            padding: 10px 16px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); border-radius: 6px;
+        }
+        .logo { color: white; font-size: 24px; font-weight: bold; margin-bottom: 10px; }
+        .navbar { background: rgba(255,255,255,0.9); padding: 8px 12px; border-radius: 4px; }
+        .navbar a { color: #0048bd; text-decoration: none; margin-right: 15px; padding: 4px 8px; border-radius: 3px; transition: background-color 0.2s; }
+        .navbar a:hover { background-color: #e8f2f8; color: #4a6c8a; font-weight: bold; }
+
+        .page-content { margin: 20px auto 0; display: flex; flex-direction: column; gap: var(--gutter); }
+
+        .content-section { background: white; border: 1px solid #c8ddf0; border-radius: 6px; box-shadow: 0 2px 4px rgba(0,0,0,0.05); }
+        .section-header {
+            background: linear-gradient(135deg, #c8ddf0, #d5e4f2);
+            padding: 8px 15px; border-bottom: 1px solid #b5cde5;
+            font-weight: bold; border-radius: 5px 5px 0 0; color: #0867c7;
+            display: flex; align-items: center; justify-content: space-between;
+        }
+        .section-content { padding: 15px; line-height: 1.6; }
+
+        /* tag filter */
+        .tag-filter-bar { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; margin-bottom: 14px; }
+        .filter-label { font-size: 12px; color: #8aaac4; }
+        .tag-pill {
+            background: #f0f7ff; color: #4a7ab5; border: 1px solid #b5cde5;
+            border-radius: 12px; padding: 2px 12px; font-size: 11px;
+            cursor: pointer; font-family: 'MS PGothic', monospace; transition: background 0.2s, color 0.2s;
+        }
+        .tag-pill:hover { background: #ddeeff; }
+        .tag-pill.active { background: #7eb4e8; color: white; border-color: #5f9fd6; }
+
+        /* post cards */
+        .post-card {
+            border: 1px solid #c8ddf0; border-radius: 8px;
+            background: linear-gradient(135deg, #f0f7ff, #e8f2fb);
+            padding: 14px 16px; margin-bottom: 12px; transition: box-shadow 0.2s;
+        }
+        .post-card:last-child { margin-bottom: 0; }
+        .post-card:hover { box-shadow: 0 3px 10px rgba(0,0,0,0.09); }
+        .post-card-top { display: flex; align-items: flex-start; justify-content: space-between; gap: 10px; margin-bottom: 5px; }
+        .post-title-link { color: #0048bd; text-decoration: none; font-size: 15px; font-weight: bold; line-height: 1.3; }
+        .post-title-link:hover { text-decoration: underline; }
+        .post-tags { display: flex; flex-wrap: wrap; gap: 4px; margin-bottom: 7px; }
+        .post-tag { background: #ddeeff; color: #4a7ab5; border-radius: 10px; padding: 1px 9px; font-size: 10px; cursor: pointer; transition: background 0.15s; }
+        .post-tag:hover { background: #c8ddf0; }
+        .post-excerpt { color: #3a5a7a; font-size: 12px; line-height: 1.5; margin-bottom: 8px; }
+        .post-meta { display: flex; align-items: center; gap: 10px; font-size: 11px; color: #8aaac4; flex-wrap: wrap; }
+        .dot { opacity: 0.4; }
+        .post-admin-btns { display: flex; gap: 6px; flex-shrink: 0; }
+        .post-edit-btn, .post-delete-btn {
+            background: none; border: 1px solid #b5cde5; border-radius: 10px;
+            font-family: 'MS PGothic', monospace; font-size: 10px; padding: 2px 9px; cursor: pointer; transition: background 0.2s;
+        }
+        .post-edit-btn { color: #4a7ab5; }
+        .post-edit-btn:hover { background: #ddeeff; }
+        .post-delete-btn { color: #b94a4a; border-color: #e8c4c4; }
+        .post-delete-btn:hover { background: #fdf0f0; }
+        .empty-posts { text-align: center; color: #8aaac4; padding: 30px; font-size: 13px; }
+
+        /* new post button */
+        .new-post-btn {
+            background: linear-gradient(135deg, #7eb4e8, #5f9fd6); color: white; border: none;
+            padding: 5px 14px; border-radius: 4px; font-family: 'MS PGothic', monospace;
+            font-size: 12px; cursor: pointer; transition: opacity 0.2s;
+        }
+        .new-post-btn:hover { opacity: 0.88; }
+
+        /* write form */
+        .write-row { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; margin-bottom: 10px; }
+        .write-field label { display: block; font-size: 11px; color: #6685a8; margin-bottom: 4px; }
+        .write-input, .write-textarea {
+            width: 100%; font-family: 'MS PGothic', monospace; font-size: 13px;
+            border: 1px solid #b5cde5; border-radius: 4px; padding: 6px 9px;
+            background: #f7fbff; color: #222; outline: none; transition: border-color 0.2s;
+        }
+        .write-input:focus, .write-textarea:focus { border-color: #6aa2d6; background: #fff; }
+        .write-textarea { min-height: 220px; resize: vertical; }
+        .write-actions { display: flex; align-items: center; gap: 10px; margin-top: 10px; flex-wrap: wrap; }
+        .btn-primary {
+            background: linear-gradient(135deg, #7eb4e8, #5f9fd6); color: white; border: none;
+            padding: 7px 18px; border-radius: 4px; font-family: 'MS PGothic', monospace;
+            font-size: 13px; cursor: pointer; transition: opacity 0.2s;
+        }
+        .btn-primary:hover { opacity: 0.88; }
+        .btn-secondary {
+            background: linear-gradient(135deg, #d5e4f2, #c8ddf0); color: #3a6ea5; border: none;
+            padding: 7px 14px; border-radius: 4px; font-family: 'MS PGothic', monospace;
+            font-size: 13px; cursor: pointer; transition: opacity 0.2s;
+        }
+        .btn-secondary:hover { opacity: 0.88; }
+        .btn-cancel {
+            background: none; border: 1px solid #b5cde5; color: #6685a8;
+            font-family: 'MS PGothic', monospace; font-size: 12px;
+            padding: 6px 14px; border-radius: 4px; cursor: pointer;
+        }
+        .btn-cancel:hover { background: #f0f7ff; }
+        .write-status { font-size: 12px; min-height: 18px; }
+        .write-status.ok { color: #3a8a5c; }
+        .write-status.err { color: #b94a4a; }
+        .preview-area {
+            display: none; background: #f7fbff; border: 1px solid #b5cde5;
+            border-radius: 4px; padding: 14px; margin-top: 8px; color: #1a3354; line-height: 1.7;
+        }
+        .preview-area.open { display: block; }
+        .preview-area h1, .preview-area h2, .preview-area h3 { color: #0867c7; margin: 10px 0 6px; }
+        .preview-area p { margin-bottom: 8px; }
+        .preview-area code { background: #e8f2fb; padding: 1px 4px; border-radius: 3px; font-size: 12px; }
+        .preview-area pre { background: #e8f2fb; padding: 10px; border-radius: 4px; overflow-x: auto; margin-bottom: 8px; }
+
+        /* admin strip */
+        .admin-strip { padding: 6px 0 12px; text-align: right; }
+        .admin-toggle { background: none; border: none; color: #b0c8de; font-family: 'MS PGothic', monospace; font-size: 11px; cursor: pointer; text-decoration: underline dotted; padding: 0; }
+        .admin-toggle:hover { color: #7aaacf; }
+        .admin-login-panel { display: none; background: white; border: 1px solid #c8ddf0; border-radius: 6px; padding: 12px 14px; margin-top: 6px; text-align: left; box-shadow: 0 2px 4px rgba(0,0,0,0.05); }
+        .admin-login-panel.open { display: block; }
+        .admin-field { width: 100%; font-family: 'MS PGothic', monospace; font-size: 12px; border: 1px solid #b5cde5; border-radius: 4px; padding: 5px 8px; background: #f7fbff; color: #222; outline: none; margin-bottom: 6px; transition: border-color 0.2s; }
+        .admin-field:focus { border-color: #6aa2d6; background: #fff; }
+        .admin-sign-in-btn { background: linear-gradient(135deg, #7eb4e8, #5f9fd6); color: white; border: none; padding: 5px 14px; border-radius: 4px; font-family: 'MS PGothic', monospace; font-size: 12px; cursor: pointer; }
+        .admin-login-status { font-size: 11px; margin-top: 5px; min-height: 16px; }
+        .admin-login-status.err { color: #b94a4a; }
+        .admin-bar { display: flex; align-items: center; gap: 10px; justify-content: flex-end; font-size: 11px; color: #4a7ab5; }
+        .admin-logout-btn { background: none; border: 1px solid #b5cde5; color: #6685a8; font-family: 'MS PGothic', monospace; font-size: 11px; padding: 2px 10px; border-radius: 10px; cursor: pointer; }
+        .admin-logout-btn:hover { background: #e8f2fb; }
+
+        footer.footer { margin: 0 0 10px; }
+        .footer-panel { background: linear-gradient(135deg, #4c92d9, #d5e4f2); padding: 20px 16px; text-align: center; font-size: 12px; color: #02193d; border-radius: 6px; }
+
+        @media (max-width: 768px) {
+            :root { --site-padding-x: 10px; }
+            header.header { margin: 10px 0; }
+            .navbar a { display: block; margin: 2px 0; }
+            .write-row { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+<header class="header">
+    <div class="container">
+        <div class="header-panel">
+            <div class="logo">nevichan's website~</div>
+            <nav class="navbar">
+                <a href="index.html">home</a>
+                <a href="guestbook.html">submissions</a>
+                <a href="blog.html">blog</a>
+                <a href="credits.html">credits</a>
+                <a href="https://myanimelist.net/profile/_nevi" target="_blank" rel="noopener">mal</a>
+                <a href="https://vndb.org/u219801" target="_blank" rel="noopener">vndb</a>
+                <a href="https://x.com/nevitwt" target="_blank" rel="noopener">twt</a>
+            </nav>
+        </div>
+    </div>
+</header>
+
+<div class="container">
+    <div class="page-content">
+
+        <!-- admin write/edit form -->
+        <section class="content-section" id="write-section" style="display:none;">
+            <div class="section-header">
+                <span id="write-heading">✦ New Post ✦</span>
+                <button class="btn-cancel" id="write-cancel">cancel</button>
+            </div>
+            <div class="section-content">
+                <div class="write-row">
+                    <div class="write-field">
+                        <label>title</label>
+                        <input class="write-input" type="text" id="post-title" placeholder="post title...">
+                    </div>
+                    <div class="write-field">
+                        <label>date</label>
+                        <input class="write-input" type="date" id="post-date">
+                    </div>
+                    <div class="write-field">
+                        <label>tags <span style="color:#aac;font-weight:normal;">(comma-separated)</span></label>
+                        <input class="write-input" type="text" id="post-tags" placeholder="anime, review, life">
+                    </div>
+                </div>
+                <div class="write-field">
+                    <label>content <span style="color:#aac;font-weight:normal;">(markdown supported)</span></label>
+                    <textarea class="write-textarea" id="post-content" placeholder="write your post in markdown..."></textarea>
+                </div>
+                <div class="write-actions">
+                    <button class="btn-primary" id="write-publish">publish ✦</button>
+                    <button class="btn-secondary" id="write-preview-toggle">preview</button>
+                    <span class="write-status" id="write-status"></span>
+                </div>
+                <div class="preview-area" id="write-preview"></div>
+            </div>
+        </section>
+
+        <!-- post listing -->
+        <section class="content-section">
+            <div class="section-header">
+                <span>✦ Blog ✦</span>
+                <button class="new-post-btn" id="new-post-btn" style="display:none;">+ new post</button>
+            </div>
+            <div class="section-content">
+                <div class="tag-filter-bar" id="tag-filter-bar">
+                    <span class="filter-label">filter:</span>
+                    <span class="tag-pill active" data-tag="all">all</span>
+                </div>
+                <div id="posts-list"><div class="empty-posts">loading posts...</div></div>
+            </div>
+        </section>
+
+    </div>
+</div>
+
+<div class="container">
+    <div class="admin-strip">
+        <div id="admin-logged-out">
+            <button class="admin-toggle" id="admin-toggle">owner login</button>
+            <div class="admin-login-panel" id="admin-login-panel">
+                <input class="admin-field" type="email" id="admin-email" placeholder="email" autocomplete="email">
+                <input class="admin-field" type="password" id="admin-pass" placeholder="password" autocomplete="current-password">
+                <button class="admin-sign-in-btn" id="admin-sign-in">sign in ✦</button>
+                <div class="admin-login-status" id="admin-login-status"></div>
+            </div>
+        </div>
+        <div id="admin-logged-in" style="display:none;">
+            <div class="admin-bar">
+                <span>✦ signed in as admin</span>
+                <button class="admin-logout-btn" id="admin-logout">log out</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<footer class="footer">
+    <div class="container">
+        <div class="footer-panel">layout by <a href="https://electric-tenshi.nekoweb.org/" target="_blank" rel="noopener" style="color:#02193d;">electric-tenshi</a> · modified by nevichan</div>
+    </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+<script>
+    const SUPABASE_URL      = 'https://nfpshvdjdfyplsgjvnbu.supabase.co';
+    const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5mcHNodmRqZGZ5cGxzZ2p2bmJ1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzkwMTAzMDEsImV4cCI6MjA5NDU4NjMwMX0.-kEd16tXd4fkyn8WPw6nUF-SihH7UNWSmtiuL0S4uto';
+    const { createClient } = supabase;
+    const db = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+    let isAdmin      = false;
+    let allPosts     = [];
+    let editingId    = null;
+    let activeTag    = 'all';
+
+    // ── auth ──
+    document.getElementById('admin-toggle').addEventListener('click', () =>
+        document.getElementById('admin-login-panel').classList.toggle('open'));
+
+    document.getElementById('admin-sign-in').addEventListener('click', async () => {
+        const email  = document.getElementById('admin-email').value.trim();
+        const pass   = document.getElementById('admin-pass').value;
+        const status = document.getElementById('admin-login-status');
+        status.textContent = '';
+        const { error } = await db.auth.signInWithPassword({ email, password: pass });
+        if (error) { status.textContent = 'incorrect email or password.'; status.className = 'admin-login-status err'; }
+    });
+
+    document.getElementById('admin-logout').addEventListener('click', () => db.auth.signOut());
+
+    db.auth.onAuthStateChange((_e, session) => {
+        isAdmin = !!session;
+        document.getElementById('admin-logged-out').style.display = isAdmin ? 'none' : '';
+        document.getElementById('admin-logged-in').style.display  = isAdmin ? ''     : 'none';
+        document.getElementById('new-post-btn').style.display     = isAdmin ? ''     : 'none';
+        loadPosts();
+    });
+
+    // ── write form ──
+    document.getElementById('new-post-btn').addEventListener('click', () => {
+        editingId = null;
+        clearForm();
+        document.getElementById('write-heading').textContent = '✦ New Post ✦';
+        document.getElementById('post-date').value = new Date().toISOString().slice(0, 10);
+        document.getElementById('write-section').style.display = '';
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+
+    document.getElementById('write-cancel').addEventListener('click', () => {
+        document.getElementById('write-section').style.display = 'none';
+        clearForm();
+    });
+
+    document.getElementById('write-preview-toggle').addEventListener('click', () => {
+        const pre = document.getElementById('write-preview');
+        pre.classList.toggle('open');
+        if (pre.classList.contains('open'))
+            pre.innerHTML = marked.parse(document.getElementById('post-content').value || '*nothing to preview*');
+    });
+
+    document.getElementById('post-content').addEventListener('input', () => {
+        const pre = document.getElementById('write-preview');
+        if (pre.classList.contains('open'))
+            pre.innerHTML = marked.parse(document.getElementById('post-content').value || '*nothing to preview*');
+    });
+
+    document.getElementById('write-publish').addEventListener('click', async () => {
+        const title   = document.getElementById('post-title').value.trim();
+        const date    = document.getElementById('post-date').value;
+        const tags    = document.getElementById('post-tags').value.trim();
+        const content = document.getElementById('post-content').value.trim();
+        const statusEl = document.getElementById('write-status');
+
+        if (!title || !content) {
+            statusEl.textContent = 'title and content are required.';
+            statusEl.className = 'write-status err';
+            return;
+        }
+
+        statusEl.textContent = '';
+        const payload = {
+            title, content, tags,
+            published_at: date ? new Date(date).toISOString() : new Date().toISOString(),
+        };
+
+        const { error } = editingId
+            ? await db.from('posts').update(payload).eq('id', editingId)
+            : await db.from('posts').insert(payload);
+
+        if (error) {
+            statusEl.textContent = 'error saving post.';
+            statusEl.className = 'write-status err';
+        } else {
+            statusEl.textContent = editingId ? 'post updated! ♡' : 'post published! ♡';
+            statusEl.className = 'write-status ok';
+            editingId = null;
+            await loadPosts();
+            setTimeout(() => {
+                document.getElementById('write-section').style.display = 'none';
+                clearForm();
+            }, 1200);
+        }
+    });
+
+    function clearForm() {
+        ['post-title','post-date','post-tags','post-content'].forEach(id => document.getElementById(id).value = '');
+        document.getElementById('write-status').textContent = '';
+        const pre = document.getElementById('write-preview');
+        pre.classList.remove('open');
+        pre.innerHTML = '';
+    }
+
+    // ── tags ──
+    function setActiveTag(tag) {
+        activeTag = tag;
+        document.querySelectorAll('.tag-pill').forEach(p => p.classList.toggle('active', p.dataset.tag === tag));
+        renderPosts();
+    }
+
+    function rebuildTagFilter() {
+        const tags = new Set();
+        allPosts.forEach(p => {
+            if (p.tags) p.tags.split(',').map(t => t.trim()).filter(Boolean).forEach(t => tags.add(t));
+        });
+        const bar = document.getElementById('tag-filter-bar');
+        bar.innerHTML = '<span class="filter-label">filter:</span>';
+
+        const mkPill = (tag, label) => {
+            const el = document.createElement('span');
+            el.className = `tag-pill${activeTag === tag ? ' active' : ''}`;
+            el.dataset.tag = tag;
+            el.textContent = label;
+            el.addEventListener('click', () => setActiveTag(tag));
+            bar.appendChild(el);
+        };
+        mkPill('all', 'all');
+        [...tags].sort().forEach(t => mkPill(t, t));
+    }
+
+    // ── posts ──
+    function readInfo(text) {
+        const words = text.trim().split(/\s+/).filter(Boolean).length;
+        return { words, mins: Math.max(1, Math.round(words / 200)) };
+    }
+
+    function fmtDate(iso) {
+        return new Date(iso).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' });
+    }
+
+    function mkExcerpt(md, n = 140) {
+        const plain = md.replace(/[#*_`>\[\]!]/g, '').replace(/\n+/g, ' ').trim();
+        return plain.length > n ? plain.slice(0, n) + '…' : plain;
+    }
+
+    function renderPosts() {
+        const list = document.getElementById('posts-list');
+        const shown = activeTag === 'all'
+            ? allPosts
+            : allPosts.filter(p => p.tags && p.tags.split(',').map(t => t.trim()).includes(activeTag));
+
+        if (shown.length === 0) { list.innerHTML = '<div class="empty-posts">no posts yet ✦</div>'; return; }
+
+        list.innerHTML = '';
+        for (const post of shown) {
+            const tags = post.tags ? post.tags.split(',').map(t => t.trim()).filter(Boolean) : [];
+            const { words, mins } = readInfo(post.content || '');
+            const card = document.createElement('div');
+            card.className = 'post-card';
+            card.innerHTML = `
+                <div class="post-card-top">
+                    <a class="post-title-link" href="post.html?id=${post.id}">${esc(post.title)}</a>
+                    ${isAdmin ? `<div class="post-admin-btns">
+                        <button class="post-edit-btn" data-id="${post.id}">edit</button>
+                        <button class="post-delete-btn" data-id="${post.id}">delete</button>
+                    </div>` : ''}
+                </div>
+                <div class="post-tags">${tags.map(t => `<span class="post-tag" data-tag="${esc(t)}">${esc(t)}</span>`).join('')}</div>
+                <div class="post-excerpt">${esc(mkExcerpt(post.content || ''))}</div>
+                <div class="post-meta">
+                    <span>${fmtDate(post.published_at)}</span>
+                    <span class="dot">·</span>
+                    <span>${mins} min read</span>
+                    <span class="dot">·</span>
+                    <span>${words.toLocaleString()} words</span>
+                </div>`;
+
+            card.querySelectorAll('.post-tag').forEach(el =>
+                el.addEventListener('click', () => setActiveTag(el.dataset.tag)));
+
+            if (isAdmin) {
+                card.querySelector('.post-edit-btn').addEventListener('click', () => openEdit(post));
+                card.querySelector('.post-delete-btn').addEventListener('click', () => deletePost(post.id));
+            }
+            list.appendChild(card);
+        }
+    }
+
+    async function loadPosts() {
+        const { data, error } = await db
+            .from('posts')
+            .select('id, title, content, tags, published_at')
+            .order('published_at', { ascending: false });
+        if (error) { document.getElementById('posts-list').innerHTML = '<div class="empty-posts">could not load posts :(</div>'; return; }
+        allPosts = data || [];
+        rebuildTagFilter();
+        renderPosts();
+    }
+
+    function openEdit(post) {
+        editingId = post.id;
+        document.getElementById('post-title').value   = post.title || '';
+        document.getElementById('post-date').value    = post.published_at ? post.published_at.slice(0,10) : '';
+        document.getElementById('post-tags').value    = post.tags || '';
+        document.getElementById('post-content').value = post.content || '';
+        document.getElementById('write-heading').textContent = '✦ Edit Post ✦';
+        document.getElementById('write-status').textContent = '';
+        document.getElementById('write-section').style.display = '';
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    async function deletePost(id) {
+        if (!confirm('delete this post? this cannot be undone.')) return;
+        const { error } = await db.from('posts').delete().eq('id', id);
+        if (!error) await loadPosts();
+    }
+
+    function esc(s) {
+        return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');
+    }
+</script>
+</body>
+</html>
