@@ -8,155 +8,50 @@
     <style>
         :root { --site-max-width: 1100px; --site-padding-x: 20px; --gutter: 20px; }
         * { margin: 0; padding: 0; box-sizing: border-box; }
-
-        body {
-            font-family: 'MS PGothic', monospace;
-            font-size: 14px;
-            background: url('https://file.garden/agn-UD6P8TZ4njoW/ezgif-60bf49456f130f82.gif') center center / cover fixed;
-            color: #333;
-            position: relative;
-        }
-        body::before {
-            content: '';
-            position: fixed;
-            inset: 0;
-            background: rgba(0, 0, 0, 0.45);
-            z-index: -1;
-            pointer-events: none;
-        }
-
+        body { font-family: 'MS PGothic', monospace; font-size: 14px; background: url('https://file.garden/agn-UD6P8TZ4njoW/ezgif-60bf49456f130f82.gif') center center / cover fixed; color: #333; position: relative; }
+        body::before { content: ''; position: fixed; inset: 0; background: rgba(0,0,0,0.45); z-index: -1; pointer-events: none; }
         ::-webkit-scrollbar { width: 12px; }
         ::-webkit-scrollbar-track { background: #e9ecef; border-radius: 6px; }
         ::-webkit-scrollbar-thumb { background: #a8c8e8; border-radius: 6px; border: 2px solid #e9ecef; }
         ::-webkit-scrollbar-thumb:hover { background: #90b6e0; }
-
         .container { max-width: var(--site-max-width); margin: 0 auto; padding: 0 var(--site-padding-x); }
-
         header.header { margin: 20px 0; }
         .header-panel { background: linear-gradient(135deg, #7eb4e8, #6aa2d6); padding: 10px 16px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); border-radius: 6px; }
         .logo { color: white; font-size: 24px; font-weight: bold; margin-bottom: 10px; }
         .navbar { background: rgba(255,255,255,0.9); padding: 8px 12px; border-radius: 4px; }
         .navbar a { color: #0048bd; text-decoration: none; margin-right: 15px; padding: 4px 8px; border-radius: 3px; transition: background-color 0.2s; }
         .navbar a:hover { background-color: #e8f2f8; color: #4a6c8a; font-weight: bold; }
-
         .page-content { margin: 20px auto 20px; display: flex; flex-direction: column; gap: var(--gutter); }
-
         .content-section { background: white; border: 1px solid #c8ddf0; border-radius: 6px; box-shadow: 0 2px 4px rgba(0,0,0,0.05); }
         .section-header { background: linear-gradient(135deg, #c8ddf0, #d5e4f2); padding: 8px 15px; border-bottom: 1px solid #b5cde5; font-weight: bold; border-radius: 5px 5px 0 0; color: #0867c7; display: flex; align-items: center; justify-content: space-between; }
-
-        /* live indicator */
-        .live-badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 5px;
-            background: #e8f8ee;
-            color: #1a7a3a;
-            border: 1px solid #a8e0bc;
-            border-radius: 10px;
-            padding: 2px 10px;
-            font-size: 11px;
-            font-weight: bold;
-        }
-        .live-badge.offline {
-            background: #f5f5f5;
-            color: #888;
-            border-color: #ddd;
-        }
-        .live-dot {
-            width: 7px; height: 7px;
-            border-radius: 50%;
-            background: #2ecc71;
-            animation: pulse 1.5s ease-in-out infinite;
-        }
-        .live-badge.offline .live-dot {
-            background: #bbb;
-            animation: none;
-        }
-        @keyframes pulse {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.3; }
-        }
-
-        /* stream layout */
-        .stream-layout {
-            display: grid;
-            grid-template-columns: 1fr 320px;
-            gap: var(--gutter);
-            align-items: start;
-        }
-
-        .player-wrap {
-            position: relative;
-            width: 100%;
-            padding-top: 56.25%; /* 16:9 */
-            background: #000;
-            border-radius: 0 0 6px 6px;
-            overflow: hidden;
-        }
-        .player-wrap iframe {
-            position: absolute;
-            inset: 0;
-            width: 100%;
-            height: 100%;
-            border: none;
-        }
-
-        /* offline screen */
-        .offline-screen {
-            position: absolute;
-            inset: 0;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            background: #0a0f1e;
-            color: #a8c8e8;
-            gap: 10px;
-            font-size: 13px;
-        }
-        .offline-screen .zzz { font-size: 28px; letter-spacing: 2px; color: #7eb4e8; }
-        .offline-screen p { color: #6a8faa; font-size: 12px; }
-
-        /* chat */
-        .chat-section { display: flex; flex-direction: column; height: 100%; }
-        .chat-iframe-wrap { flex: 1; }
-        .chat-iframe-wrap iframe {
-            width: 100%;
-            height: 480px;
-            border: none;
-            border-radius: 0 0 6px 6px;
-        }
-
-        /* stream info below player */
+        .live-badge { display: inline-flex; align-items: center; gap: 5px; background: #f5f5f5; color: #888; border: 1px solid #ddd; border-radius: 10px; padding: 2px 10px; font-size: 11px; font-weight: bold; }
+        .live-badge.live { background: #e8f8ee; color: #1a7a3a; border-color: #a8e0bc; }
+        .live-dot { width: 7px; height: 7px; border-radius: 50%; background: #bbb; }
+        .live-badge.live .live-dot { background: #2ecc71; animation: pulse 1.5s ease-in-out infinite; }
+        @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.3} }
+        .stream-layout { display: grid; grid-template-columns: 1fr 320px; gap: var(--gutter); align-items: start; }
+        .player-wrap { position: relative; width: 100%; padding-top: 56.25%; background: #0a1628; border-radius: 0 0 0 0; overflow: hidden; }
+        .player-wrap iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: none; }
+        .offline-screen { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; background: #0a1628; gap: 10px; overflow: hidden; }
+        .offline-main { font-size: 24px; color: #b8d8f0; letter-spacing: 2px; z-index: 1; font-family: 'MS PGothic', monospace; }
+        .offline-sub { font-size: 12px; color: #6a9abb; letter-spacing: 1px; z-index: 1; font-family: 'MS PGothic', monospace; }
+        .note { position: absolute; color: #7eb4e8; opacity: 0; animation: floatNote linear infinite; pointer-events: none; }
+        @keyframes floatNote { 0%{opacity:0;transform:translateY(0) rotate(var(--r))} 10%{opacity:var(--op)} 85%{opacity:var(--op)} 100%{opacity:0;transform:translateY(-400px) rotate(calc(var(--r) + 20deg))} }
         .stream-info { padding: 14px 16px; border-top: 1px solid #e8f2fb; }
         .stream-title { font-size: 15px; font-weight: bold; color: #1a3354; margin-bottom: 4px; }
-        .stream-meta { font-size: 11px; color: #8aaac4; display: flex; gap: 14px; flex-wrap: wrap; }
-        .stream-meta span { display: flex; align-items: center; gap: 4px; }
-
-        /* sidebar info panels */
+        .stream-meta { font-size: 11px; color: #8aaac4; }
+        .chat-iframe-wrap iframe { width: 100%; height: 480px; border: none; border-radius: 0 0 6px 6px; }
         .sidebar { display: flex; flex-direction: column; gap: var(--gutter); }
         .sidebar .section-content { padding: 14px 16px; line-height: 1.7; font-size: 13px; color: #1a3354; }
-        .sidebar .section-content ul {
-            list-style-image: url('https://64.media.tumblr.com/bd82f5bd9dcf2073b5ad71fb77f276be/2560c9d1d2d874bf-7c/s75x75_c1/093ee732da12bc3e5e35d6764ae060bfeaab5653.gifv');
-            padding-left: 26px;
-        }
+        .sidebar .section-content ul { list-style-image: url('https://64.media.tumblr.com/bd82f5bd9dcf2073b5ad71fb77f276be/2560c9d1d2d874bf-7c/s75x75_c1/093ee732da12bc3e5e35d6764ae060bfeaab5653.gifv'); padding-left: 26px; }
         .sidebar .section-content li { margin-bottom: 6px; }
         .sidebar .section-content a { color: #0059b3; text-decoration: none; }
         .sidebar .section-content a:hover { text-decoration: underline; }
-
         footer.footer { margin: 0 0 10px; }
         .footer-panel { background: linear-gradient(135deg, #4c92d9, #d5e4f2); padding: 20px 16px; text-align: center; font-size: 12px; color: #02193d; border-radius: 6px; }
         .footer-panel a { color: #02193d; }
-
-        @media (max-width: 860px) {
-            .stream-layout { grid-template-columns: 1fr; }
-            .chat-iframe-wrap iframe { height: 320px; }
-        }
-        @media (max-width: 768px) {
-            :root { --site-padding-x: 10px; }
-            header.header { margin: 10px 0; }
-            .navbar a { display: block; margin: 2px 0; }
-        }
+        @media (max-width: 860px) { .stream-layout { grid-template-columns: 1fr; } .chat-iframe-wrap iframe { height: 320px; } }
+        @media (max-width: 768px) { :root { --site-padding-x: 10px; } header.header { margin: 10px 0; } .navbar a { display: block; margin: 2px 0; } }
     </style>
 </head>
 <body>
@@ -181,43 +76,37 @@
 
 <div class="container">
     <div class="page-content">
-
         <div class="stream-layout">
-
-            <!-- left: player + info -->
             <div>
                 <div class="content-section">
                     <div class="section-header">
                         <span>✦ stream</span>
-                        <span class="live-badge offline" id="live-badge">
+                        <span class="live-badge" id="live-badge">
                             <span class="live-dot"></span>
                             <span id="live-text">offline</span>
                         </span>
                     </div>
-                    <div class="player-wrap" id="player-wrap">
-                        <iframe
-                            src="https://stream.nevichan.moe/embed/video"
-                            allowfullscreen>
-                        </iframe>
+                    <div class="player-wrap">
+                        <div class="offline-screen" id="offline-screen">
+                            <div class="offline-main">(— ω —) ♪</div>
+                            <div class="offline-sub">nevichan is offline.. come back soon!</div>
+                        </div>
+                        <iframe id="stream-iframe" src="https://stream.nevichan.moe/embed/video" allowfullscreen style="display:none;"></iframe>
                     </div>
                     <div class="stream-info">
                         <div class="stream-title" id="stream-title">nevi is offline~</div>
+                        <div class="stream-meta" id="stream-meta">check twitter for stream announcements ♡</div>
                     </div>
                 </div>
             </div>
 
-            <!-- right: chat + info -->
             <div class="sidebar">
-                <div class="content-section chat-section">
+                <div class="content-section">
                     <div class="section-header">✦ chat</div>
                     <div class="chat-iframe-wrap">
-                        <iframe
-                            src="https://stream.nevichan.moe/embed/chat/readwrite"
-                            allow="autoplay">
-                        </iframe>
+                        <iframe src="https://stream.nevichan.moe/embed/chat/readwrite" allow="autoplay"></iframe>
                     </div>
                 </div>
-
                 <div class="content-section">
                     <div class="section-header">✦ about the stream</div>
                     <div class="section-content">
@@ -229,7 +118,6 @@
                         </ul>
                     </div>
                 </div>
-
                 <div class="content-section">
                     <div class="section-header">✦ direct links</div>
                     <div class="section-content">
@@ -240,7 +128,6 @@
                     </div>
                 </div>
             </div>
-
         </div>
     </div>
 </div>
@@ -253,35 +140,55 @@
     </div>
 </footer>
 
-
 <script>
-    const OWNCAST = 'https://stream.nevichan.moe';
+(function() {
+    var symbols = ['♩','♪','♫','♬','♭','♮'];
+    var screen = document.getElementById('offline-screen');
+    for (var i = 0; i < 20; i++) {
+        var el = document.createElement('div');
+        el.className = 'note';
+        el.textContent = symbols[Math.floor(Math.random() * symbols.length)];
+        var x = Math.random() * 90;
+        var dur = 4 + Math.random() * 7;
+        var delay = Math.random() * 10;
+        var op = 0.15 + Math.random() * 0.5;
+        var r = (Math.random() - 0.5) * 30;
+        var size = 14 + Math.random() * 18;
+        el.style.cssText = 'left:'+x+'%;bottom:-30px;font-size:'+size+'px;--r:'+r+'deg;--op:'+op+';animation-duration:'+dur+'s;animation-delay:-'+delay+'s;';
+        screen.appendChild(el);
+    }
 
     async function checkStatus() {
         try {
-            const res = await fetch(`${OWNCAST}/api/status`);
-            const data = await res.json();
-
-            const badge       = document.getElementById('live-badge');
-            const liveText    = document.getElementById('live-text');
-            const streamTitle = document.getElementById('stream-title');
-
+            var res = await fetch('https://stream.nevichan.moe/api/status');
+            var data = await res.json();
+            var badge = document.getElementById('live-badge');
+            var liveText = document.getElementById('live-text');
+            var offlineScreen = document.getElementById('offline-screen');
+            var streamIframe = document.getElementById('stream-iframe');
+            var streamTitle = document.getElementById('stream-title');
+            var streamMeta = document.getElementById('stream-meta');
             if (data.online) {
-                badge.classList.remove('offline');
+                badge.classList.add('live');
                 liveText.textContent = 'live';
+                offlineScreen.style.display = 'none';
+                streamIframe.style.display = 'block';
                 streamTitle.textContent = data.streamTitle || 'nevi is live!';
+                streamMeta.textContent = '\u{1F441} ' + (data.viewerCount || 0) + ' watching';
             } else {
-                badge.classList.add('offline');
+                badge.classList.remove('live');
                 liveText.textContent = 'offline';
+                offlineScreen.style.display = 'flex';
+                streamIframe.style.display = 'none';
                 streamTitle.textContent = 'nevi is offline~';
+                streamMeta.textContent = 'check twitter for stream announcements \u2661';
             }
-        } catch (e) {
-            console.warn('stream api unreachable:', e);
-        }
+        } catch(e) {}
     }
 
     checkStatus();
     setInterval(checkStatus, 30000);
+})();
 </script>
 
 </body>
