@@ -187,25 +187,12 @@
             <!-- left: player + info -->
             <div>
                 <div class="content-section">
-                    <div class="section-header">
-                        <span>✦ stream</span>
-                        <span class="live-badge offline" id="live-badge">
-                            <span class="live-dot"></span>
-                            <span id="live-text">offline</span>
-                        </span>
-                    </div>
+                    <div class="section-header">✦ stream</div>
                     <div class="player-wrap" id="player-wrap">
-                        <!-- offline placeholder shown until status check -->
-                        <div class="offline-screen" id="offline-screen">
-                            <div class="zzz">(— ω —) zzZ</div>
-                            <p>not streaming right now...</p>
-                            <p>check back later! ♡</p>
-                        </div>
                         <iframe
                             id="stream-iframe"
                             src="https://stream.nevichan.moe/embed/video"
-                            allowfullscreen
-                            style="display:none;">
+                            allowfullscreen>
                         </iframe>
                     </div>
                     <div class="stream-info">
@@ -265,50 +252,7 @@
     </div>
 </footer>
 
-<script>
-    const OWNCAST = 'https://stream.nevichan.moe';
 
-    async function checkStatus() {
-        try {
-            const res = await fetch(`${OWNCAST}/api/status`);
-            const data = await res.json();
-
-            const badge = document.getElementById('live-badge');
-            const liveText = document.getElementById('live-text');
-            const offlineScreen = document.getElementById('offline-screen');
-            const streamIframe = document.getElementById('stream-iframe');
-            const streamTitle = document.getElementById('stream-title');
-            const viewerCount = document.getElementById('viewer-count');
-            const streamCategory = document.getElementById('stream-category');
-
-            if (data.online) {
-                badge.classList.remove('offline');
-                liveText.textContent = 'live';
-                offlineScreen.style.display = 'none';
-                streamIframe.style.display = 'block';
-                streamTitle.textContent = data.streamTitle || 'nevi is live!';
-                viewerCount.textContent = `👁 ${data.viewerCount ?? 0} viewer${data.viewerCount !== 1 ? 's' : ''}`;
-                if (data.lastConnectTime) {
-                    const mins = Math.floor((Date.now() - new Date(data.lastConnectTime)) / 60000);
-                    streamCategory.textContent = `⏱ ${mins}m`;
-                }
-            } else {
-                badge.classList.add('offline');
-                liveText.textContent = 'offline';
-                offlineScreen.style.display = 'flex';
-                streamIframe.style.display = 'none';
-                streamTitle.textContent = 'nevi is offline~';
-                viewerCount.textContent = '👁 — viewers';
-                streamCategory.textContent = '';
-            }
-        } catch (e) {
-            console.warn('could not reach stream status api', e);
-        }
-    }
-
-    checkStatus();
-    setInterval(checkStatus, 30000);
-</script>
 
 </body>
 </html>
