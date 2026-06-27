@@ -38,7 +38,15 @@
         .footer-panel { padding: 8px 16px; text-align: center; font-size: 11px; color: rgba(255,255,255,0.45); }
         .footer-panel a { color: rgba(255,255,255,0.55); }
         @media (max-width: 860px) { .stream-layout { grid-template-columns: 1fr; } .chat-iframe-wrap iframe { height: 320px; } }
-        @media (max-width: 768px) { :root { --site-padding-x: 10px; } header.header { margin: 10px 0; } .navbar a { display: block; margin: 2px 0; } }
+        @media (max-width: 768px) {
+            :root { --site-padding-x: 10px; }
+            body { font-size: 15px; }
+            .logo { font-size: 20px; }
+            header.header { margin: 10px 0; }
+            .navbar { padding: 4px 8px; }
+            .navbar a { display: block; margin: 2px 0; padding: 10px 12px; }
+            .chat-iframe-wrap iframe { height: 420px; }
+        }
     </style>
 </head>
 <body>
