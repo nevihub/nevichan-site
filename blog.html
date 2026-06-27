@@ -12,7 +12,7 @@
         body {
             font-family: 'MS PGothic', monospace;
             font-size: 14px;
-            background: url('https://file.garden/agn-UD6P8TZ4njoW/ezgif-60bf49456f130f82.gif') center center / cover fixed;
+            background: #0d1117;
             color: #333;
             position: relative;
         }
@@ -22,6 +22,14 @@
             inset: 0;
             background: rgba(0, 0, 0, 0.45);
             z-index: -1;
+            pointer-events: none;
+        }
+        .bg-video {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            object-fit: cover;
+            z-index: -2;
             pointer-events: none;
         }
 
@@ -172,6 +180,10 @@
     </style>
 </head>
 <body>
+
+<video class="bg-video" autoplay muted loop playsinline>
+    <source src="https://file.garden/agn-UD6P8TZ4njoW/ezgif-1ced25ef35928139.webm" type="video/webm">
+</video>
 
 <header class="header">
     <div class="container">

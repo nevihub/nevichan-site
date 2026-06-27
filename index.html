@@ -6,6 +6,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>nevichan's website!</title>
+    <meta name="description" content="nevichan's personal website — エロゲ enjoyer, moe enthusiast, uni student. blog, stream, guestbook and more~">
     <link rel="icon" type="image/x-icon" href="https://64.media.tumblr.com/ed6fac0fe126e6798f1b00fe44a1532e/2560c9d1d2d874bf-9f/s75x75_c1/836357977fbf0d8d2e4ff9db1710ce412e5c4ea2.gifv">
     <style>
     
@@ -24,7 +25,7 @@
         body {
             font-family: 'MS PGothic', monospace;
             font-size: 15px;
-            background: url('https://file.garden/agn-UD6P8TZ4njoW/ezgif-60bf49456f130f82.gif') center center / cover fixed;
+            background: #0d1117;
             color: #333;
             position: relative;
         }
@@ -35,6 +36,15 @@
             inset: 0;
             background: rgba(0, 0, 0, 0.45);
             z-index: -1;
+            pointer-events: none;
+        }
+
+        .bg-video {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            object-fit: cover;
+            z-index: -2;
             pointer-events: none;
         }
 
@@ -165,7 +175,7 @@
 
         .bio-tags {
             text-align: center;
-            color: #5a7a9a;
+            color: #4a6a8a;
             font-size: 13px;
             line-height: 1.8;
             letter-spacing: 0.02em;
@@ -189,7 +199,7 @@
 
         .feed-date {
             font-size: 11px;
-            color: #8aa3bf;
+            color: #4a6a8a;
         }
 
         .feed-tag {
@@ -274,6 +284,10 @@
 </head>
 <body>
 
+<video class="bg-video" autoplay muted loop playsinline>
+    <source src="https://file.garden/agn-UD6P8TZ4njoW/ezgif-1ced25ef35928139.webm" type="video/webm">
+</video>
+
     <header class="header">
         <div class="container">
             <div class="header-panel">
@@ -297,7 +311,7 @@
                     <div class="section-content">
                         <p class="bio-tags">エロゲ enjoyer · 日本語雑魚 · uni student · lewd pervert · moe enthusiast · sony a6000 & viltrox 23mm f/1.4 · 19 · enfj-t 4w3</p>
                         <p style="margin-top:10px;">hi everynyan its nevi and this is my first attempt at making a website! im using a templete so some things might be broken or look weird but im trying my best >_<</p>
-                        <img src="https://file.garden/agn-UD6P8TZ4njoW/WHATT.png" alt="" style="max-width:100%; margin-top:10px; border-radius:4px;">
+                        <img src="https://file.garden/agn-UD6P8TZ4njoW/ezgif-101f1087c058395b.webp" alt="" style="max-width:100%; margin-top:10px; border-radius:4px;">
                     </div>
                 </section>
             </main>
