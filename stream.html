@@ -23,23 +23,10 @@
         .navbar a:hover { background-color: #e8f2f8; color: #4a6c8a; font-weight: bold; }
         .page-content { margin: 20px auto 20px; display: flex; flex-direction: column; gap: var(--gutter); }
         .content-section { background: white; border: 1px solid #c8ddf0; border-radius: 6px; box-shadow: 0 2px 4px rgba(0,0,0,0.05); }
-        .section-header { background: linear-gradient(135deg, #c8ddf0, #d5e4f2); padding: 8px 15px; border-bottom: 1px solid #b5cde5; font-weight: bold; border-radius: 5px 5px 0 0; color: #0867c7; display: flex; align-items: center; justify-content: space-between; }
-        .live-badge { display: inline-flex; align-items: center; gap: 5px; background: #f5f5f5; color: #888; border: 1px solid #ddd; border-radius: 10px; padding: 2px 10px; font-size: 11px; font-weight: bold; }
-        .live-badge.live { background: #e8f8ee; color: #1a7a3a; border-color: #a8e0bc; }
-        .live-dot { width: 7px; height: 7px; border-radius: 50%; background: #bbb; }
-        .live-badge.live .live-dot { background: #2ecc71; animation: pulse 1.5s ease-in-out infinite; }
-        @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.3} }
+        .section-header { background: linear-gradient(135deg, #c8ddf0, #d5e4f2); padding: 8px 15px; border-bottom: 1px solid #b5cde5; font-weight: bold; border-radius: 5px 5px 0 0; color: #0867c7; }
         .stream-layout { display: grid; grid-template-columns: 1fr 320px; gap: var(--gutter); align-items: start; }
-        .player-wrap { position: relative; width: 100%; padding-top: 56.25%; background: #0a1628; border-radius: 0 0 0 0; overflow: hidden; }
+        .player-wrap { position: relative; width: 100%; padding-top: 56.25%; background: #0a1628; overflow: hidden; border-radius: 0 0 6px 6px; }
         .player-wrap iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: none; }
-        .offline-screen { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; background: #0a1628; gap: 10px; overflow: hidden; }
-        .offline-main { font-size: 24px; color: #b8d8f0; letter-spacing: 2px; z-index: 1; font-family: 'MS PGothic', monospace; }
-        .offline-sub { font-size: 12px; color: #6a9abb; letter-spacing: 1px; z-index: 1; font-family: 'MS PGothic', monospace; }
-        .note { position: absolute; color: #7eb4e8; opacity: 0; animation: floatNote linear infinite; pointer-events: none; }
-        @keyframes floatNote { 0%{opacity:0;transform:translateY(0) rotate(var(--r))} 10%{opacity:var(--op)} 85%{opacity:var(--op)} 100%{opacity:0;transform:translateY(-400px) rotate(calc(var(--r) + 20deg))} }
-        .stream-info { padding: 14px 16px; border-top: 1px solid #e8f2fb; }
-        .stream-title { font-size: 15px; font-weight: bold; color: #1a3354; margin-bottom: 4px; }
-        .stream-meta { font-size: 11px; color: #8aaac4; }
         .chat-iframe-wrap iframe { width: 100%; height: 480px; border: none; border-radius: 0 0 6px 6px; }
         .sidebar { display: flex; flex-direction: column; gap: var(--gutter); }
         .sidebar .section-content { padding: 14px 16px; line-height: 1.7; font-size: 13px; color: #1a3354; }
@@ -47,9 +34,9 @@
         .sidebar .section-content li { margin-bottom: 6px; }
         .sidebar .section-content a { color: #0059b3; text-decoration: none; }
         .sidebar .section-content a:hover { text-decoration: underline; }
-        footer.footer { margin: 0 0 10px; }
-        .footer-panel { background: linear-gradient(135deg, #4c92d9, #d5e4f2); padding: 20px 16px; text-align: center; font-size: 12px; color: #02193d; border-radius: 6px; }
-        .footer-panel a { color: #02193d; }
+        footer.footer { margin: 0; }
+        .footer-panel { padding: 8px 16px; text-align: center; font-size: 11px; color: rgba(255,255,255,0.45); }
+        .footer-panel a { color: rgba(255,255,255,0.55); }
         @media (max-width: 860px) { .stream-layout { grid-template-columns: 1fr; } .chat-iframe-wrap iframe { height: 320px; } }
         @media (max-width: 768px) { :root { --site-padding-x: 10px; } header.header { margin: 10px 0; } .navbar a { display: block; margin: 2px 0; } }
     </style>
@@ -76,22 +63,9 @@
         <div class="stream-layout">
             <div>
                 <div class="content-section">
-                    <div class="section-header">
-                        <span>✦ stream</span>
-                        <span class="live-badge" id="live-badge">
-                            <span class="live-dot"></span>
-                            <span id="live-text">offline</span>
-                        </span>
-                    </div>
+                    <div class="section-header">✦ stream</div>
                     <div class="player-wrap">
-                        <div class="offline-screen" id="offline-screen">
-                            <div class="offline-main">(— ω —) ♪</div>
-                            <div class="offline-sub">nevichan is offline.. come back soon!</div>
-                        </div>
-                        <iframe id="stream-iframe" src="https://stream.nevichan.moe/embed/video" allowfullscreen style="display:none;"></iframe>
-                    </div>
-                    <div class="stream-info">
-                        <div class="stream-title" id="stream-title">nevi is offline~</div>
+                        <iframe src="https://player.twitch.tv/?channel=nevikun&parent=nevihub.github.io" allowfullscreen></iframe>
                     </div>
                 </div>
             </div>
@@ -100,7 +74,7 @@
                 <div class="content-section">
                     <div class="section-header">✦ chat</div>
                     <div class="chat-iframe-wrap">
-                        <iframe src="https://stream.nevichan.moe/embed/chat/readwrite" allow="autoplay"></iframe>
+                        <iframe src="https://www.twitch.tv/embed/nevikun/chat?parent=nevihub.github.io&darkpopout" allow="autoplay"></iframe>
                     </div>
                 </div>
                 <div class="content-section">
@@ -116,8 +90,7 @@
                     <div class="section-header">✦ direct links</div>
                     <div class="section-content">
                         <ul>
-                            <li><a href="https://stream.nevichan.moe" target="_blank" rel="noopener">stream.nevichan.moe ↗</a></li>
-                            <li><a href="https://stream.nevichan.moe/embed/video" target="_blank" rel="noopener">player only ↗</a></li>
+                            <li><a href="https://twitch.tv/nevikun" target="_blank" rel="noopener">twitch.tv/nevikun ↗</a></li>
                         </ul>
                     </div>
                 </div>
@@ -133,57 +106,6 @@
         </div>
     </div>
 </footer>
-
-<script>
-(function() {
-    var symbols = ['♩','♪','♫','♬','♭','♮'];
-    var screen = document.getElementById('offline-screen');
-    for (var i = 0; i < 20; i++) {
-        var el = document.createElement('div');
-        el.className = 'note';
-        el.textContent = symbols[Math.floor(Math.random() * symbols.length)];
-        var x = Math.random() * 90;
-        var dur = 4 + Math.random() * 7;
-        var delay = Math.random() * 10;
-        var op = 0.15 + Math.random() * 0.5;
-        var r = (Math.random() - 0.5) * 30;
-        var size = 14 + Math.random() * 18;
-        el.style.cssText = 'left:'+x+'%;bottom:-30px;font-size:'+size+'px;--r:'+r+'deg;--op:'+op+';animation-duration:'+dur+'s;animation-delay:-'+delay+'s;';
-        screen.appendChild(el);
-    }
-
-    async function checkStatus() {
-        try {
-            var res = await fetch('https://stream-status.kitkatbaarr.workers.dev');
-            var data = await res.json();
-            var badge = document.getElementById('live-badge');
-            var liveText = document.getElementById('live-text');
-            var offlineScreen = document.getElementById('offline-screen');
-            var streamIframe = document.getElementById('stream-iframe');
-            var streamTitle = document.getElementById('stream-title');
-            var streamMeta = document.getElementById('stream-meta');
-            if (data.online) {
-                badge.classList.add('live');
-                liveText.textContent = 'live';
-                offlineScreen.style.display = 'none';
-                streamIframe.style.display = 'block';
-                streamTitle.textContent = data.streamTitle || 'nevi is live!';
-                streamMeta.textContent = '\u{1F441} ' + (data.viewerCount || 0) + ' watching';
-            } else {
-                badge.classList.remove('live');
-                liveText.textContent = 'offline';
-                offlineScreen.style.display = 'flex';
-                streamIframe.style.display = 'none';
-                streamTitle.textContent = 'nevi is offline~';
-                streamMeta.textContent = 'check twitter for stream announcements \u2661';
-            }
-        } catch(e) {}
-    }
-
-    checkStatus();
-    setInterval(checkStatus, 30000);
-})();
-</script>
 
 </body>
 </html>

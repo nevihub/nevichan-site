@@ -161,6 +161,48 @@
         .sidebar .section-content { max-height: 150px; overflow-y: auto; }
         .sidebar .section-content.no-clip { max-height: none; overflow-y: visible; }
 
+        .feed-entry {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+            padding: 7px 0;
+            border-bottom: 1px solid #e8f0f8;
+        }
+
+        .feed-entry:last-child { border-bottom: none; }
+
+        .feed-meta {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .feed-date {
+            font-size: 11px;
+            color: #8aa3bf;
+        }
+
+        .feed-tag {
+            font-size: 10px;
+            font-weight: bold;
+            padding: 1px 6px;
+            border-radius: 8px;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+        }
+
+        .tag-media   { background: #d6e8ff; color: #2255aa; }
+        .tag-life    { background: #d6f0e0; color: #226633; }
+        .tag-bought  { background: #fce8d5; color: #995522; }
+        .tag-games   { background: #e8d6f5; color: #663388; }
+        .tag-music   { background: #fde8f0; color: #993366; }
+
+        .feed-text {
+            font-size: 13px;
+            color: #011d4a;
+            line-height: 1.4;
+        }
+
         .button-section {
             background: white;
             border: 1px solid #c8ddf0;
@@ -187,18 +229,19 @@
         }
 
         footer.footer {
-            margin: 20px 0 10px 0;
-            display: block;
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            pointer-events: none;
         }
 
         .footer-panel {
-            background: linear-gradient(135deg, #4c92d9, #d5e4f2);
-            padding: 20px 16px;
+            padding: 8px 16px;
             text-align: center;
-            border-top: 1px solid #e0e0e0;
-            font-size: 12px;
-            color: #02193d;
-            border-radius: 6px;
+            font-size: 11px;
+            color: rgba(255,255,255,0.45);
+            pointer-events: auto;
         }
         
         /* this is to make it mobile friendly. uhh idk what i'm doing with this let me know it it does work */
@@ -247,19 +290,20 @@
 
             <aside class="sidebar">
                 <section class="content-section">
-                    <div class="section-header">site updates</div>
+                    <div class="section-header">live feed</div>
                     <div class="section-content">
-                        <ul>
-                            <li><strong>05/17/26 ·</strong> stream page is live! ✦</li>
-                            <li><strong>05/17/26 ·</strong> home page cleaned up~</li>
-                            <li><strong>05/17/26 ·</strong> fixed welcome box height ✦</li>
-                            <li><strong>05/17/26 ·</strong> added nevi image to welcome~</li>
-                            <li><strong>05/17/26 ·</strong> the blog is open! ✦</li>
-                            <li><strong>05/17/26 ·</strong> site has a name now~</li>
-                            <li><strong>05/17/26 ·</strong> added animated bg + dark overlay</li>
-                            <li><strong>05/17/26 ·</strong> submissions page is live!</li>
-                            <li><strong>05/17/26 ·</strong> site is born ♡</li>
-                        </ul>
+
+                        <!-- newest entry at the top. copy a .feed-entry block to add more. -->
+                        <!-- tags: tag-media, tag-life, tag-bought, tag-games, tag-music -->
+
+                        <div class="feed-entry">
+                            <div class="feed-meta">
+                                <span class="feed-date">06/27/26</span>
+                                <span class="feed-tag tag-life">life</span>
+                            </div>
+                            <div class="feed-text">made a live feed section for my site~</div>
+                        </div>
+
                     </div>
                 </section>
 
@@ -276,8 +320,8 @@
                     <div class="section-header">socials</div>
                     <div class="section-content">
                         <ul>
-                            <li><a href="https://x.com/nevitwt" target="_blank" rel="noopener">twitter / twt</a></li>
-                            <li><a href="https://myanimelist.net/profile/_nevi" target="_blank" rel="noopener">myanimelist / mal</a></li>
+                            <li><a href="https://x.com/nevitwt" target="_blank" rel="noopener">twitter</a></li>
+                            <li><a href="https://myanimelist.net/profile/_nevi" target="_blank" rel="noopener">myanimelist</a></li>
                             <li><a href="https://vndb.org/u219801" target="_blank" rel="noopener">vndb</a></li>
                         </ul>
                     </div>
@@ -290,7 +334,7 @@
     <footer class="footer">
         <div class="container">
             <div class="footer-panel">
-                layout by <a href="https://electric-tenshi.nekoweb.org/" target="_blank" rel="noopener" style="color:#02193d;">electric-tenshi</a> · modified by nevichan
+                layout by <a href="https://electric-tenshi.nekoweb.org/" target="_blank" rel="noopener" style="color:rgba(255,255,255,0.55);">electric-tenshi</a> · modified by nevichan
             </div>
         </div>
     </footer>
