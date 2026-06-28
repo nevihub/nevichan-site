@@ -11,7 +11,7 @@
 
         body {
             font-family: 'MS PGothic', monospace;
-            font-size: 14px;
+            font-size: 15px;
             background: #0d1117;
             color: #333;
             position: relative;
@@ -81,13 +81,13 @@
         .post-card:last-child { margin-bottom: 0; }
         .post-card:hover { box-shadow: 0 3px 10px rgba(0,0,0,0.09); }
         .post-card-top { display: flex; align-items: flex-start; justify-content: space-between; gap: 10px; margin-bottom: 5px; }
-        .post-title-link { color: #0048bd; text-decoration: none; font-size: 15px; font-weight: bold; line-height: 1.3; }
+        .post-title-link { color: #0048bd; text-decoration: none; font-size: 17px; font-weight: bold; line-height: 1.3; }
         .post-title-link:hover { text-decoration: underline; }
         .post-tags { display: flex; flex-wrap: wrap; gap: 4px; margin-bottom: 7px; }
-        .post-tag { background: #ddeeff; color: #4a7ab5; border-radius: 10px; padding: 1px 9px; font-size: 10px; cursor: pointer; transition: background 0.15s; }
+        .post-tag { background: #ddeeff; color: #4a7ab5; border-radius: 10px; padding: 1px 9px; font-size: 11px; cursor: pointer; transition: background 0.15s; }
         .post-tag:hover { background: #c8ddf0; }
-        .post-excerpt { color: #3a5a7a; font-size: 12px; line-height: 1.5; margin-bottom: 8px; }
-        .post-meta { display: flex; align-items: center; gap: 10px; font-size: 11px; color: #8aaac4; flex-wrap: wrap; }
+        .post-excerpt { color: #3a5a7a; font-size: 14px; line-height: 1.6; margin-bottom: 8px; }
+        .post-meta { display: flex; align-items: center; gap: 10px; font-size: 12px; color: #8aaac4; flex-wrap: wrap; }
         .dot { opacity: 0.4; }
         .post-admin-btns { display: flex; gap: 6px; flex-shrink: 0; }
         .post-edit-btn, .post-delete-btn {
@@ -428,9 +428,12 @@
         return new Date(iso).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' });
     }
 
-    function mkExcerpt(md, n = 140) {
+    function mkExcerpt(md, n = 160) {
         const plain = md.replace(/[#*_`>\[\]!]/g, '').replace(/\n+/g, ' ').trim();
-        return plain.length > n ? plain.slice(0, n) + '…' : plain;
+        if (plain.length <= n) return plain;
+        const cut = plain.slice(0, n);
+        const lastSpace = cut.lastIndexOf(' ');
+        return (lastSpace > 0 ? cut.slice(0, lastSpace) : cut) + '…';
     }
 
     function renderPosts() {

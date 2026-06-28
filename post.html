@@ -11,7 +11,7 @@
 
         body {
             font-family: 'MS PGothic', monospace;
-            font-size: 14px;
+            font-size: 15px;
             background: #0d1117;
             color: #333;
             position: relative;
@@ -57,7 +57,7 @@
 
         .page-content { margin: 20px auto 20px; }
 
-        .back-link { display: inline-block; margin-bottom: 14px; color: #a8c8e8; text-decoration: none; font-size: 12px; }
+        .back-link { display: inline-block; margin-bottom: 14px; color: #a8c8e8; text-decoration: none; font-size: 13px; }
         .back-link:hover { color: #fff; text-decoration: underline; }
 
         /* two-column layout */
@@ -72,13 +72,13 @@
         .post-section { background: white; border: 1px solid #c8ddf0; border-radius: 6px; box-shadow: 0 2px 4px rgba(0,0,0,0.05); }
         .post-header-panel { background: linear-gradient(135deg, #c8ddf0, #d5e4f2); padding: 16px 20px; border-bottom: 1px solid #b5cde5; border-radius: 5px 5px 0 0; }
         .post-h-title { font-size: 20px; font-weight: bold; color: #0048bd; line-height: 1.35; margin-bottom: 10px; }
-        .post-h-meta { display: flex; align-items: center; flex-wrap: wrap; gap: 7px; font-size: 11px; color: #6685a8; }
-        .post-h-tag { background: #ddeeff; color: #4a7ab5; border-radius: 10px; padding: 1px 9px; font-size: 10px; }
+        .post-h-meta { display: flex; align-items: center; flex-wrap: wrap; gap: 7px; font-size: 12px; color: #6685a8; }
+        .post-h-tag { background: #ddeeff; color: #4a7ab5; border-radius: 10px; padding: 1px 9px; font-size: 11px; }
 
         .reading-stats {
             display: flex; align-items: center; gap: 16px;
             background: #f7fbff; border-bottom: 1px solid #e0ecf5;
-            padding: 8px 20px; font-size: 11px; color: #8aaac4;
+            padding: 8px 20px; font-size: 12px; color: #8aaac4;
         }
 
         .post-body { padding: 20px; line-height: 1.8; color: #1a3354; }
@@ -113,14 +113,14 @@
         .toc-header {
             background: linear-gradient(135deg, #c8ddf0, #d5e4f2);
             padding: 7px 13px; border-bottom: 1px solid #b5cde5;
-            font-weight: bold; border-radius: 5px 5px 0 0; color: #0867c7; font-size: 12px;
+            font-weight: bold; border-radius: 5px 5px 0 0; color: #0867c7; font-size: 13px;
         }
         .toc-body { padding: 10px 12px; }
         #toc-list { list-style: none; }
         #toc-list li { margin-bottom: 3px; }
         #toc-list li.toc-h3 { padding-left: 10px; }
         #toc-list a {
-            color: #4a7ab5; text-decoration: none; font-size: 11px;
+            color: #4a7ab5; text-decoration: none; font-size: 12px;
             display: block; padding: 3px 6px; border-radius: 3px; line-height: 1.4;
             transition: background 0.15s, color 0.15s;
         }
@@ -130,6 +130,38 @@
 
         footer.footer { margin: 0; }
         .footer-panel { padding: 8px 16px; text-align: center; font-size: 11px; color: rgba(255,255,255,0.45); }
+
+        /* comments */
+        .comments-section { margin-top: var(--gutter); background: white; border: 1px solid #c8ddf0; border-radius: 6px; box-shadow: 0 2px 4px rgba(0,0,0,0.05); }
+        .comments-section .section-header { background: linear-gradient(135deg, #c8ddf0, #d5e4f2); padding: 8px 15px; border-bottom: 1px solid #b5cde5; font-weight: bold; border-radius: 5px 5px 0 0; color: #0867c7; }
+        .comments-body { padding: 18px 20px; }
+        .comment-item { padding: 12px 0; border-bottom: 1px solid #e8f0f8; }
+        .comment-item:last-of-type { border-bottom: none; }
+        .comment-meta { display: flex; align-items: center; gap: 10px; margin-bottom: 5px; }
+        .comment-author { font-weight: bold; color: #1a3354; font-size: 14px; }
+        .comment-date { font-size: 12px; color: #8aaac4; }
+        .comment-text { font-size: 14px; color: #2a4a6a; line-height: 1.6; white-space: pre-wrap; word-break: break-word; }
+        .no-comments { color: #8aaac4; font-size: 14px; font-style: italic; padding: 8px 0; }
+        .comment-form { margin-top: 18px; padding-top: 16px; border-top: 1px solid #c8ddf0; display: flex; flex-direction: column; gap: 10px; }
+        .comment-form input, .comment-form textarea {
+            font-family: 'MS PGothic', monospace; font-size: 14px;
+            border: 1px solid #c8ddf0; border-radius: 4px; padding: 8px 10px;
+            color: #1a3354; outline: none;
+            transition: border-color 0.15s;
+        }
+        .comment-form input:focus, .comment-form textarea:focus { border-color: #7eb4e8; }
+        .comment-form textarea { resize: vertical; min-height: 80px; }
+        .comment-submit {
+            align-self: flex-start;
+            background: linear-gradient(135deg, #7eb4e8, #6aa2d6);
+            color: white; border: none; border-radius: 4px;
+            padding: 7px 20px; font-family: 'MS PGothic', monospace;
+            font-size: 14px; cursor: pointer; transition: opacity 0.15s;
+        }
+        .comment-submit:hover { opacity: 0.85; }
+        .comment-submit:disabled { opacity: 0.5; cursor: default; }
+        .comment-status { font-size: 13px; color: #4a7ab5; }
+        .comment-status.err { color: #b54a4a; }
 
         @media (max-width: 768px) {
             :root { --site-padding-x: 10px; }
@@ -178,6 +210,21 @@
                 </div>
             </aside>
         </div>
+
+        <div class="comments-section" id="comments-section" style="display:none;">
+            <div class="section-header">✦ comments</div>
+            <div class="comments-body">
+                <div id="comments-list"></div>
+                <form class="comment-form" id="comment-form">
+                    <input type="text" id="comment-author" placeholder="your name" maxlength="50" required>
+                    <textarea id="comment-body" placeholder="leave a comment~" maxlength="1000" required></textarea>
+                    <div style="display:flex;align-items:center;gap:12px;">
+                        <button class="comment-submit" type="submit">post comment</button>
+                        <span class="comment-status" id="comment-status"></span>
+                    </div>
+                </form>
+            </div>
+        </div>
     </div>
 </div>
 
@@ -218,6 +265,7 @@
         if (error || !data) { showNotFound(); return; }
         document.title = `${data.title} ✦ nevichan's website!`;
         renderPost(data);
+        loadComments(id);
     }
 
     function renderPost(post) {
@@ -296,6 +344,65 @@
     function esc(s) {
         return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');
     }
+
+    // comments
+    const commentsSection = document.getElementById('comments-section');
+    const commentsList    = document.getElementById('comments-list');
+    const commentForm     = document.getElementById('comment-form');
+    const commentStatus   = document.getElementById('comment-status');
+
+    async function loadComments(postId) {
+        commentsSection.style.display = '';
+        const { data, error } = await db
+            .from('comments')
+            .select('author, body, created_at')
+            .eq('post_id', postId)
+            .order('created_at', { ascending: true });
+
+        if (error || !data || data.length === 0) {
+            commentsList.innerHTML = '<p class="no-comments">no comments yet — be the first! ^^</p>';
+            return;
+        }
+        commentsList.innerHTML = data.map(c => {
+            const date = new Date(c.created_at).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' });
+            return `<div class="comment-item">
+                <div class="comment-meta">
+                    <span class="comment-author">${esc(c.author)}</span>
+                    <span class="comment-date">${date}</span>
+                </div>
+                <div class="comment-text">${esc(c.body)}</div>
+            </div>`;
+        }).join('');
+    }
+
+    commentForm.addEventListener('submit', async e => {
+        e.preventDefault();
+        const postId = new URLSearchParams(window.location.search).get('id');
+        if (!postId) return;
+        const author = document.getElementById('comment-author').value.trim();
+        const body   = document.getElementById('comment-body').value.trim();
+        if (!author || !body) return;
+
+        const btn = commentForm.querySelector('.comment-submit');
+        btn.disabled = true;
+        commentStatus.textContent = 'posting...';
+        commentStatus.className = 'comment-status';
+
+        const { error } = await db.from('comments').insert({ post_id: postId, author, body });
+
+        if (error) {
+            commentStatus.textContent = 'something went wrong, try again :(';
+            commentStatus.className = 'comment-status err';
+            btn.disabled = false;
+            return;
+        }
+
+        commentForm.reset();
+        commentStatus.textContent = 'comment posted! ^^';
+        btn.disabled = false;
+        await loadComments(postId);
+        setTimeout(() => { commentStatus.textContent = ''; }, 3000);
+    });
 
     loadPost();
 </script>
