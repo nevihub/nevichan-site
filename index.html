@@ -61,7 +61,7 @@
         }
 
         header.header {
-            margin: 20px 0;
+            margin: 10px 0 0 0;
             display: block;
         }
 
@@ -77,6 +77,25 @@
             font-size: 28px;
             font-weight: bold;
             margin-bottom: 10px;
+            display: inline-block;
+            cursor: default;
+            transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1), filter 0.25s ease;
+            transform-origin: left center;
+        }
+
+        .logo:hover {
+            transform: scale(1.07) translateY(-3px);
+            background: linear-gradient(90deg, #fff 0%, #c8e8ff 20%, #ffb8e8 40%, #ffe8a0 60%, #b8f0c8 80%, #fff 100%);
+            background-size: 300% 100%;
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            filter: drop-shadow(0 6px 18px rgba(150,200,255,0.75)) drop-shadow(0 0 8px rgba(255,200,240,0.5));
+            animation: logo-shimmer 2s linear infinite;
+        }
+
+        @keyframes logo-shimmer {
+            to { background-position: -300% 0; }
         }
 
         .navbar {
@@ -103,8 +122,9 @@
         .main-container {
             display: grid;
             grid-template-columns: 2fr 1fr;
+            align-items: start;
             gap: var(--gutter);
-            margin: 20px auto 0 auto;
+            margin: 10px auto 0 auto;
         }
 
         .content-section {
@@ -165,9 +185,9 @@
         .img-center { display: block; margin: 10px auto; max-width: 100%; height: auto; }
         .section-content::after { content: ""; display: table; clear: both; }
 
-        .main-content { display: flex; flex-direction: column; height: fit-content; }
-        .main-content .content-section { height: auto; }
-        .main-content .section-content { max-height: none; overflow-y: visible; }
+        .main-content { display: flex; flex-direction: column; }
+        .main-content .content-section { display: flex; flex-direction: column; }
+        .main-content .section-content { overflow-y: auto; max-height: none; }
 
         .sidebar { display: flex; flex-direction: column; }
         .sidebar .section-content { max-height: none; overflow-y: visible; }
@@ -249,19 +269,14 @@
         }
 
         footer.footer {
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            pointer-events: none;
+            display: block;
         }
 
         .footer-panel {
-            padding: 8px 16px;
+            padding: 12px 16px;
             text-align: center;
             font-size: 11px;
             color: rgba(255,255,255,0.45);
-            pointer-events: auto;
         }
         
         /* this is to make it mobile friendly. uhh idk what i'm doing with this let me know it it does work */
@@ -272,13 +287,104 @@
             .logo { font-size: 20px; }
             .main-container { grid-template-columns: 1fr; gap: 12px; margin: 10px auto 0 auto; }
             header.header { margin: 10px 0; }
-            footer.footer { position: static; margin: 20px 0 10px 0; }
+            footer.footer { margin: 10px 0; }
             .navbar { padding: 4px 8px; }
             .navbar a { display: block; margin: 2px 0; padding: 10px 12px; }
             .button-area { flex-direction: column; }
             .main-content .content-section:last-child { height: auto; }
             .main-content .content-section:last-child .section-content { max-height: 300px; overflow-y: auto; }
             .img-left, .img-right { float: none; display: block; margin: 10px auto; }
+            .gallery-img { height: 120px; }
+        }
+
+        /* gallery showcase */
+        .gallery-section {
+            background: white;
+            border: 1px solid #c8ddf0;
+            border-radius: 6px;
+            margin-top: var(--gutter);
+            margin-bottom: 20px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            overflow: hidden;
+        }
+
+        .gallery-section .section-header {
+            background: linear-gradient(135deg, #c8ddf0, #d5e4f2);
+            padding: 8px 15px;
+            border-bottom: 1px solid #b5cde5;
+            font-weight: bold;
+            color: #0867c7;
+            font-size: 14px;
+        }
+
+        .gallery-scroll-wrap {
+            overflow: hidden;
+            padding: 14px 0;
+            background: #f7fbff;
+            cursor: grab;
+        }
+        .gallery-scroll-wrap.grabbing { cursor: grabbing; }
+
+        .gallery-track {
+            display: flex;
+            gap: 12px;
+            width: max-content;
+            padding: 0 12px;
+            user-select: none;
+            will-change: transform;
+        }
+
+        .gallery-img {
+            height: 160px;
+            width: auto;
+            border-radius: 6px;
+            flex-shrink: 0;
+            object-fit: cover;
+            border: 2px solid #c8ddf0;
+            display: block;
+            cursor: zoom-in;
+            transition: transform 0.2s ease, border-color 0.2s ease;
+            -webkit-user-drag: none;
+        }
+
+        .gallery-img:hover {
+            transform: scale(1.04);
+            border-color: #7eb4e8;
+        }
+
+        /* lightbox */
+        .lightbox {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.88);
+            z-index: 9999;
+            align-items: center;
+            justify-content: center;
+            cursor: zoom-out;
+        }
+        .lightbox.open { display: flex; }
+        .lightbox img {
+            max-width: 90vw;
+            max-height: 88vh;
+            border-radius: 8px;
+            box-shadow: 0 8px 48px rgba(0,0,0,0.6);
+            cursor: default;
+            animation: lb-pop 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+        .lightbox-close {
+            position: absolute;
+            top: 18px; right: 24px;
+            color: rgba(255,255,255,0.7);
+            font-size: 28px;
+            cursor: pointer;
+            line-height: 1;
+            transition: color 0.15s;
+        }
+        .lightbox-close:hover { color: #fff; }
+        @keyframes lb-pop {
+            from { transform: scale(0.85); opacity: 0; }
+            to   { transform: scale(1);    opacity: 1; }
         }
     </style>
 </head>
@@ -311,7 +417,14 @@
                     <div class="section-content">
                         <p class="bio-tags">エロゲ enjoyer · 日本語雑魚 · uni student · lewd pervert · moe enthusiast · sony a6000 & viltrox 23mm f/1.4 · 19 · enfj-t 4w3</p>
                         <p style="margin-top:10px;">hi everynyan its nevi and this is my first attempt at making a website! im using a templete so some things might be broken or look weird but im trying my best >_<</p>
-                        <img src="https://file.garden/agn-UD6P8TZ4njoW/ezgif-101f1087c058395b.webp" alt="" style="max-width:100%; margin-top:10px; border-radius:4px;">
+                        <p style="margin-top:10px;">test text line 1 — lorem ipsum dolor sit amet consectetur adipiscing elit sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+                        <p style="margin-top:10px;">test text line 2 — ut enim ad minim veniam quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat duis aute irure dolor.</p>
+                        <p style="margin-top:10px;">test text line 3 — excepteur sint occaecat cupidatat non proident sunt in culpa qui officia deserunt mollit anim id est laborum and even more text here to push past the scroll limit~</p>
+                        <p style="margin-top:10px;">test text line 3 — excepteur sint occaecat cupidatat non proident sunt in culpa qui officia deserunt mollit anim id est laborum and even more text here to push past the scroll limit~</p>
+                        <p style="margin-top:10px;">test text line 3 — excepteur sint occaecat cupidatat non proident sunt in culpa qui officia deserunt mollit anim id est laborum and even more text here to push past the scroll limit~</p>
+                        <p style="margin-top:10px;">test text line 3 — excepteur sint occaecat cupidatat non proident sunt in culpa qui officia deserunt mollit anim id est laborum and even more text here to push past the scroll limit~</p>
+                        <p style="margin-top:10px;">test text line 3 — excepteur sint occaecat cupidatat non proident sunt in culpa qui officia deserunt mollit anim id est laborum and even more text here to push past the scroll limit~</p>
+                        <p style="margin-top:10px;">test text line 3 — excepteur sint occaecat cupidatat non proident sunt in culpa qui officia deserunt mollit anim id est laborum and even more text here to push past the scroll limit~</p>
                     </div>
                 </section>
             </main>
@@ -358,6 +471,27 @@
 
             </aside>
         </div>
+
+        <!-- gallery showcase — add your images in both set 1 and set 2 (keep them identical so the loop is seamless) -->
+        <div class="gallery-section">
+            <div class="section-header">media showcase ✦</div>
+            <div class="gallery-scroll-wrap">
+                <div class="gallery-track">
+                    <!-- set 1: replace src with your own image URLs -->
+                    <img class="gallery-img" src="https://file.garden/agn-UD6P8TZ4njoW/ezgif-101f1087c058395b.webp" alt="" width="281" height="160">
+                    <img class="gallery-img" src="https://file.garden/agn-UD6P8TZ4njoW/ezgif-101f1087c058395b.webp" alt="" width="281" height="160">
+                    <img class="gallery-img" src="https://file.garden/agn-UD6P8TZ4njoW/ezgif-101f1087c058395b.webp" alt="" width="281" height="160">
+                    <img class="gallery-img" src="https://file.garden/agn-UD6P8TZ4njoW/ezgif-101f1087c058395b.webp" alt="" width="281" height="160">
+                    <img class="gallery-img" src="https://file.garden/agn-UD6P8TZ4njoW/ezgif-101f1087c058395b.webp" alt="" width="281" height="160">
+                    <!-- set 2: duplicate of set 1 (required for seamless loop) -->
+                    <img class="gallery-img" src="https://file.garden/agn-UD6P8TZ4njoW/ezgif-101f1087c058395b.webp" alt="" width="281" height="160">
+                    <img class="gallery-img" src="https://file.garden/agn-UD6P8TZ4njoW/ezgif-101f1087c058395b.webp" alt="" width="281" height="160">
+                    <img class="gallery-img" src="https://file.garden/agn-UD6P8TZ4njoW/ezgif-101f1087c058395b.webp" alt="" width="281" height="160">
+                    <img class="gallery-img" src="https://file.garden/agn-UD6P8TZ4njoW/ezgif-101f1087c058395b.webp" alt="" width="281" height="160">
+                    <img class="gallery-img" src="https://file.garden/agn-UD6P8TZ4njoW/ezgif-101f1087c058395b.webp" alt="" width="281" height="160">
+                </div>
+            </div>
+        </div>
     </div>
 
     <footer class="footer">
@@ -368,6 +502,113 @@
         </div>
     </footer>
 
+<!-- lightbox -->
+<div class="lightbox" id="lightbox">
+    <span class="lightbox-close" id="lightbox-close">✕</span>
+    <img id="lightbox-img" src="" alt="">
+</div>
+
+<script>
+    // ── gallery: transform-based auto-scroll + infinite drag (both directions) ──
+    const wrap  = document.querySelector('.gallery-scroll-wrap');
+    const track = document.querySelector('.gallery-track');
+
+    const SPEED = 0.3; // px per frame — slow and chill
+
+    let pos = 0;           // unbounded position (can go negative for rightward drag)
+    let isDragging = false;
+    let startX = 0;
+    let posAtDragStart = 0;
+    let didDrag = false;
+
+    function halfW() { return track.scrollWidth / 2; }
+
+    function applyPos() {
+        const h = halfW();
+        // always-positive modulo so right-drag wraps correctly
+        const visual = ((pos % h) + h) % h;
+        track.style.transform = `translateX(${-visual}px)`;
+    }
+
+    (function loop() {
+        if (!isDragging) pos += SPEED;
+        applyPos();
+        requestAnimationFrame(loop);
+    })();
+
+    // mouse drag
+    wrap.addEventListener('mousedown', e => {
+        isDragging = true; didDrag = false;
+        startX = e.pageX; posAtDragStart = pos;
+        wrap.classList.add('grabbing');
+        e.preventDefault();
+    });
+    window.addEventListener('mousemove', e => {
+        if (!isDragging) return;
+        const dx = startX - e.pageX; // positive = dragging left = move track left
+        if (Math.abs(dx) > 3) didDrag = true;
+        pos = posAtDragStart + dx;
+        applyPos();
+    });
+    window.addEventListener('mouseup', e => {
+        if (!isDragging) return;
+        isDragging = false;
+        wrap.classList.remove('grabbing');
+        if (!didDrag) {
+            const el = document.elementFromPoint(e.clientX, e.clientY);
+            openLightbox(el);
+        }
+    });
+
+    // touch drag
+    wrap.addEventListener('touchstart', e => {
+        isDragging = true; didDrag = false;
+        startX = e.touches[0].pageX; posAtDragStart = pos;
+    }, { passive: true });
+    wrap.addEventListener('touchmove', e => {
+        if (!isDragging) return;
+        const dx = startX - e.touches[0].pageX;
+        if (Math.abs(dx) > 3) didDrag = true;
+        pos = posAtDragStart + dx;
+        applyPos();
+    }, { passive: true });
+    wrap.addEventListener('touchend', e => {
+        isDragging = false;
+        if (!didDrag && e.changedTouches[0]) {
+            const el = document.elementFromPoint(e.changedTouches[0].clientX, e.changedTouches[0].clientY);
+            openLightbox(el);
+        }
+    });
+
+    // ── lightbox ──
+    const lightbox    = document.getElementById('lightbox');
+    const lightboxImg = document.getElementById('lightbox-img');
+
+    function openLightbox(el) {
+        if (!el || el.tagName !== 'IMG' || !el.classList.contains('gallery-img')) return;
+        lightboxImg.src = el.src;
+        lightbox.classList.add('open');
+    }
+
+    document.getElementById('lightbox-close').addEventListener('click', () => lightbox.classList.remove('open'));
+    lightbox.addEventListener('click', e => { if (e.target === lightbox) lightbox.classList.remove('open'); });
+    document.addEventListener('keydown', e => { if (e.key === 'Escape') lightbox.classList.remove('open'); });
+
+    // ── sync about me scroll height to sidebar height ──
+    function syncAboutMe() {
+        const sidebarSects = document.querySelectorAll('.sidebar .content-section');
+        const lastSect     = sidebarSects[sidebarSects.length - 1];
+        const header       = document.querySelector('.main-content .section-header');
+        const content      = document.querySelector('.main-content .section-content');
+        if (!lastSect || !header || !content) return;
+        // content starts exactly at header's bottom edge; section ends 1px below content (bottom border)
+        const targetBottom = lastSect.getBoundingClientRect().bottom;
+        const contentStart = header.getBoundingClientRect().bottom;
+        content.style.maxHeight = Math.max(80, targetBottom - contentStart - 1) + 'px';
+    }
+    window.addEventListener('load', () => requestAnimationFrame(syncAboutMe));
+    window.addEventListener('resize', syncAboutMe);
+</script>
 </body>
 </html>
 
